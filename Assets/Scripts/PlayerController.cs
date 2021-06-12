@@ -88,15 +88,18 @@ public class PlayerController : MonoBehaviour
         GroundHomeParent();
         CheckGrounded();
         SetPlayerInputs();
+    }
 
+
+    private void FixedUpdate()
+    {
         if (isGrounded)
         {
-            Move(); 
+            Move();
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
             Jump();
-
     }
 
     void GroundHomeParent()

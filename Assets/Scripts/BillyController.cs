@@ -40,8 +40,14 @@ public class BillyController : MonoBehaviour
 
     public float airSpring;
     public float cfForce;
+
+
     private void Start()
     {
+
+        Application.targetFrameRate = 30;
+        QualitySettings.vSyncCount = 0;
+
         jds = new JointDrive[cjs.Length];
 
         inAirDrive.maximumForce = Mathf.Infinity;
@@ -77,14 +83,16 @@ public class BillyController : MonoBehaviour
     void Update()
     {
         GroundHomeParent();
+    }
+
+    private void FixedUpdate()
+    {
         CheckGrounded();
 
         if (isGrounded)
         {
-           Move(); 
+            Move();
         }
-
-
     }
 
     void GroundHomeParent()
@@ -155,7 +163,7 @@ public class BillyController : MonoBehaviour
                 else
                 {
                     doPushUp = false;
-                    hipsRb.AddForce(new Vector3(0, 3, 0));
+                    hipsRb.AddForce(new Vector3(0, 15, 0));
                 }
             }
 
