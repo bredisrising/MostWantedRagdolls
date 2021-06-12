@@ -60,3 +60,12 @@ The following packages were updated:
   com.unity.test-framework from version 1.1.22 to 1.1.24
   com.unity.textmeshpro from version 3.0.1 to 3.0.6
   com.unity.timeline from version 1.4.6 to 1.5.5
+
+=== Sat Jun 12 17:17:54 2021
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.ide.rider from version 3.0.6 to 3.0.7
+  com.unity.postprocessing from version 3.1.0 to 3.1.1
