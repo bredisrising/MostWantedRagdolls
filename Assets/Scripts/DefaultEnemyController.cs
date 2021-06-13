@@ -78,16 +78,18 @@ public class DefaultEnemyController : MonoBehaviour
         }
         
     }
+
+    private void FixedUpdate()
+    {
+        if (isGrounded)
+        {
+            Move();
+        }
+    }
     void Update()
     {
         GroundHomeParent();
         CheckGrounded();
-
-        if (isGrounded)
-        {
-            Move(); 
-        }
-
     }
 
     void GroundHomeParent()

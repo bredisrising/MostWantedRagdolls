@@ -53,7 +53,7 @@ public class AutoAim : MonoBehaviour
             {
 
                 pointToLook = hit.point;
-                pointToLook = new Vector3(pointToLook.x, hips.position.y, pointToLook.z);
+                //pointToLook = new Vector3(pointToLook.x, hips.position.y, pointToLook.z);
                 Debug.DrawLine(cameraRay.origin, pointToLook, Color.cyan);
 
             }
