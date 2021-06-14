@@ -112,6 +112,7 @@ public class BillyController : MonoBehaviour
             Vector3 move = (followObj.position - transform.position).normalized;
 
             hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
+            
 
             Vector3 targetDelta = followObj.position - transform.position;
 

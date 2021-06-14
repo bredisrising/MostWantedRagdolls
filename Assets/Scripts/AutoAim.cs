@@ -19,11 +19,14 @@ public class AutoAim : MonoBehaviour
     public LayerMask obstacleMask;
 
     public float speed;
+    public float rotationForce;
 
     public Transform hips;
 
     public float radius;
     public float viewAngle;
+
+    Rigidbody rb;
 
     public List<Transform> visibleTargets = new List<Transform>();
 
@@ -32,6 +35,8 @@ public class AutoAim : MonoBehaviour
     Vector3 pointToLook;
     private void Start()
     {
+
+        rb = GetComponent<Rigidbody>();
 
         target = new GameObject(this.name + " target");
         target.transform.parent = aimTargets.transform;
@@ -42,7 +47,7 @@ public class AutoAim : MonoBehaviour
         }
 
     }
-    void Update()
+    void FixedUpdate()
     {
         if (!isEnemy)
         {
@@ -65,11 +70,18 @@ public class AutoAim : MonoBehaviour
 
         if (isAiming)
         {
-            transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position, -Vector3.right);
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 90);
+            //transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position, -Vector3.right);
+            //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 90);
+
+            Vector3 targetDelta = target.transform.position - transform.position;
+
+            float angleDiff = Vector3.Angle(transform.forward, targetDelta);
+
+            Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
+
+            rb.AddTorque(cross * angleDiff * rotationForce);
+
         }
-
-
 
     }
 

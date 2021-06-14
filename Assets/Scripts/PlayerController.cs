@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             hipsRb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-            hipsRb.AddTorque(new Vector3(100, 0 , 0), ForceMode.Impulse);
+            hipsRb.AddTorque(new Vector3(10, 0 , 0));
         }
         
     }
