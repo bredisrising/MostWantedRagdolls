@@ -45,7 +45,7 @@ public class BillyController : MonoBehaviour
     private void Start()
     {
 
-        //Application.targetFrameRate = 60;
+        Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 0;
 
         jds = new JointDrive[cjs.Length];

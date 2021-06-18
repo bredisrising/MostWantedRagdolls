@@ -20,6 +20,7 @@ public class AutoAim : MonoBehaviour
 
     public float speed;
     public float rotationForce;
+    public float stablizationFactor;
 
     public Transform hips;
 
@@ -47,7 +48,8 @@ public class AutoAim : MonoBehaviour
         }
 
     }
-    void FixedUpdate()
+
+    private void Update()
     {
         if (!isEnemy)
         {
@@ -63,15 +65,16 @@ public class AutoAim : MonoBehaviour
 
             }
         }
-        
+
 
         float step = speed * Time.deltaTime;
         target.transform.position = Vector3.MoveTowards(target.transform.position, aimTarget, step);
-
+    }
+    void FixedUpdate()
+    {
+        
         if (isAiming)
         {
-            //transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position, -Vector3.right);
-            //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 90);
 
             Vector3 targetDelta = target.transform.position - transform.position;
 
@@ -79,8 +82,21 @@ public class AutoAim : MonoBehaviour
 
             Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
 
-            rb.AddTorque(cross * angleDiff * rotationForce);
+            rb.AddTorque(-rb.angularVelocity * stablizationFactor, ForceMode.Acceleration);
+            rb.AddTorque(cross * angleDiff * rotationForce, ForceMode.Acceleration); 
+           
 
+            //Quaternion deltaQuat = Quaternion.FromToRotation(transform.forward, target.transform.position - transform.position);
+
+            //Vector3 axis;
+            //float angle;
+            //deltaQuat.ToAngleAxis(out angle, out axis);
+
+            //float dampenFactor = 0.8f;
+            //rb.AddTorque(-rb.angularVelocity * dampenFactor, ForceMode.Acceleration);
+
+            //float adjustFactor = 2f; // this value requires tuning
+            //rb.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Acceleration);
         }
 
     }

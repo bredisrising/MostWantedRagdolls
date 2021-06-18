@@ -88,6 +88,12 @@ public class PlayerController : MonoBehaviour
         GroundHomeParent();
         CheckGrounded();
         SetPlayerInputs();
+
+        if (isGrounded)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+                Jump();
+        }
     }
 
 
@@ -98,8 +104,7 @@ public class PlayerController : MonoBehaviour
             Move();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            Jump();
+        
     }
 
     void GroundHomeParent()
@@ -199,11 +204,10 @@ public class PlayerController : MonoBehaviour
     }
     public void Jump()
     {
-        if (isGrounded)
-        {
-            hipsRb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-            hipsRb.AddTorque(new Vector3(10, 0 , 0));
-        }
+        
+        hipsRb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
+        hipsRb.AddTorque(new Vector3(10, 0 , 0));
+        
         
     }
 
