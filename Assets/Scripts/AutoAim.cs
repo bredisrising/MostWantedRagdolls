@@ -144,8 +144,8 @@ public class AutoAim : MonoBehaviour
             {
 
                 isAiming = false;
-                aimTarget = hand.position + hand.transform.forward;
-                target.transform.position = aimTarget;
+                //aimTarget = hand.position + hand.transform.forward;
+                //target.transform.position = aimTarget;
             }
         }
     }
