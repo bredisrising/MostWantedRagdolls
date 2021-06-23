@@ -49,7 +49,7 @@ public class ProceduralAnimation : MonoBehaviour
             if (Physics.Raycast(new Vector3(home.position.x, hips.position.y, home.position.z), Vector3.down, out hit, groundCheckDist, groundMask))
             {
                 home.position = new Vector3(home.position.x, hit.point.y, home.position.z);
-                Debug.LogError("Brededededededededede");
+                //Debug.LogError("Brededededededededede");
             }
         }
     }

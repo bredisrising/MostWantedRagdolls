@@ -22,7 +22,7 @@ public class GunSystem : MonoBehaviour
     public Transform spawnPoint;
 
     private float nextTimeToFire = 0f;
-    private bool isEquipped = false;
+    public bool isEquipped = false;
     void Update()
     {
         if (Input.GetMouseButton(0) && Time.time >= nextTimeToFire && isEquipped)
@@ -31,19 +31,6 @@ public class GunSystem : MonoBehaviour
             Shoot();
         }
 
-        if (!isEquipped)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(cameraRay, out hit, Mathf.Infinity))
-                {
-
-                }
-            }
-        }
     }
 
     void Shoot()
@@ -54,4 +41,5 @@ public class GunSystem : MonoBehaviour
         
         bullet.GetComponent<BulletSystem>().Setup(projectileSpeed, bullet.transform.forward, hitForce);
     }
+
 }

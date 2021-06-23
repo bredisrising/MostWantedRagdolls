@@ -120,7 +120,7 @@ public class BillyController : MonoBehaviour
 
             Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
 
-            hipsRb.AddTorque(cross * angleDiff * .05f);
+            hipsRb.AddTorque(cross * angleDiff * .1f);
         }
         else
         {
@@ -133,7 +133,7 @@ public class BillyController : MonoBehaviour
 
             Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
 
-            hipsRb.AddTorque(cross * angleDiff * .05f);
+            hipsRb.AddTorque(cross * angleDiff * .1f);
         }
         
         

@@ -34,9 +34,9 @@ public class AutoAim : MonoBehaviour
     public bool isAiming = false;
 
     Vector3 pointToLook;
+
     private void Start()
     {
-
         rb = GetComponent<Rigidbody>();
 
         target = new GameObject(this.name + " target");
@@ -58,11 +58,8 @@ public class AutoAim : MonoBehaviour
 
             if (Physics.Raycast(cameraRay, out hit, Mathf.Infinity))
             {
-
                 pointToLook = hit.point;
-                //pointToLook = new Vector3(pointToLook.x, hips.position.y, pointToLook.z);
                 Debug.DrawLine(cameraRay.origin, pointToLook, Color.cyan);
-
             }
         }
 
@@ -83,20 +80,8 @@ public class AutoAim : MonoBehaviour
             Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
 
             rb.AddTorque(-rb.angularVelocity * stablizationFactor, ForceMode.Acceleration);
-            rb.AddTorque(cross * angleDiff * rotationForce, ForceMode.Acceleration); 
-           
+            rb.AddTorque(cross * angleDiff * rotationForce, ForceMode.Acceleration);
 
-            //Quaternion deltaQuat = Quaternion.FromToRotation(transform.forward, target.transform.position - transform.position);
-
-            //Vector3 axis;
-            //float angle;
-            //deltaQuat.ToAngleAxis(out angle, out axis);
-
-            //float dampenFactor = 0.8f;
-            //rb.AddTorque(-rb.angularVelocity * dampenFactor, ForceMode.Acceleration);
-
-            //float adjustFactor = 2f; // this value requires tuning
-            //rb.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Acceleration);
         }
 
     }
@@ -144,8 +129,8 @@ public class AutoAim : MonoBehaviour
             {
 
                 isAiming = false;
-                //aimTarget = hand.position + hand.transform.forward;
-                //target.transform.position = aimTarget;
+                aimTarget = hand.position + hand.transform.forward;
+                target.transform.position = aimTarget;
             }
         }
     }
