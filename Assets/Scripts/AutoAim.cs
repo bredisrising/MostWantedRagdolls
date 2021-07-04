@@ -19,6 +19,7 @@ public class AutoAim : MonoBehaviour
     public LayerMask obstacleMask;
 
     public float speed;
+    public float drag;
     public float rotationForce;
     public float stablizationFactor;
 
@@ -72,21 +73,29 @@ public class AutoAim : MonoBehaviour
         
         if (isAiming)
         {
-
+            rb.angularDrag = drag;
             Vector3 targetDelta = target.transform.position - transform.position;
 
             float angleDiff = Vector3.Angle(transform.forward, targetDelta);
 
             Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
 
-            rb.AddTorque(-rb.angularVelocity * stablizationFactor, ForceMode.Acceleration);
-            rb.AddTorque(cross * angleDiff * rotationForce, ForceMode.Acceleration);
 
+            //rb.AddTorque(-rb.angularVelocity * stablizationFactor, ForceMode.Acceleration);
+
+            rb.AddTorque(cross * rotationForce, ForceMode.Acceleration);
+
+            
+        }
+        else
+        {
+            if(rb.angularDrag != 0.05)
+                rb.angularDrag = 0.05f;
         }
 
     }
 
-  
+    
 
     void FindVisibleTargets()
     {
@@ -134,5 +143,6 @@ public class AutoAim : MonoBehaviour
             }
         }
     }
+
 
 }

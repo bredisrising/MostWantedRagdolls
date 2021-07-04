@@ -37,7 +37,7 @@ public class GunSystem : MonoBehaviour
     {
         upperArm.AddForce(-upperArm.transform.forward * recoil, ForceMode.Impulse);
 
-        GameObject bullet = Instantiate(projectile, spawnPoint.position, Quaternion.LookRotation(spawnPoint.position - transform.position));
+        GameObject bullet = Instantiate(projectile, spawnPoint.position, Quaternion.LookRotation(autoAim.target.transform.position - transform.position));
         
         bullet.GetComponent<BulletSystem>().Setup(projectileSpeed, bullet.transform.forward, hitForce);
     }

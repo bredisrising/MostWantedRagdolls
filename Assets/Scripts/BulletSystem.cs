@@ -50,7 +50,11 @@ public class BulletSystem : MonoBehaviour
             }
             else
             {
-                other.attachedRigidbody.AddForce(bulletDirection.normalized * hitForce, ForceMode.Acceleration);
+                if(other.transform.tag == "Weapon")
+                {
+                    other.attachedRigidbody.AddForce(bulletDirection.normalized * hitForce, ForceMode.Acceleration);
+                }
+                
             }
 
             Destroy(this.gameObject);

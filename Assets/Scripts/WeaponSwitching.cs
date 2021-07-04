@@ -14,21 +14,28 @@ public class WeaponSwitching : MonoBehaviour
             if (Physics.Raycast(cameraRay, out hit, Mathf.Infinity))
             {
                 if (hit.collider.gameObject.layer == 8)
-                {
-                    Debug.LogWarning("jo biden");
-
+                { 
                     if (currentGunHeld != null)
                     {
                         currentGunHeld.GetComponent<GunSystem>().isEquipped = false;
                         currentGunHeld.GetComponent<Rigidbody>().isKinematic = false;
-                        currentGunHeld.parent.parent = null;
+                        currentGunHeld.parent = null;
                     }
 
-                    currentGunHeld = hit.collider.gameObject.transform;
-                    currentGunHeld.GetComponent<Rigidbody>().isKinematic = true;
+                    currentGunHeld = hit.collider.gameObject.transform.root;
+                    
                     currentGunHeld.GetComponent<GunSystem>().isEquipped = true;
+                    currentGunHeld.GetComponent<Rigidbody>().isKinematic = true;
+                    
                     currentGunHeld.parent = transform;
-                    currentGunHeld.parent.transform.position = transform.position;
+
+                    currentGunHeld.position = transform.position;
+                    currentGunHeld.localRotation = Quaternion.LookRotation(Vector3.right, -Vector3.right);
+
+                    //currentGunHeld.GetChild(0).transform.position = currentGunHeld.position;
+
+
+
                 }
             }
         }
