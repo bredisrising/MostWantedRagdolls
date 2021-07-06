@@ -143,8 +143,8 @@ public class PlayerController : MonoBehaviour
             hipsRb.velocity = move;
         }
         
- 
-        hips.rotation = Quaternion.LookRotation(playerRotation);
+        if(playerRotation != Vector3.zero)
+            hips.rotation = Quaternion.LookRotation(playerRotation);
 
 
     }

@@ -20,8 +20,12 @@ public class DefaultEnemyController : MonoBehaviour
     ProceduralAnimation leftAnim;
     ProceduralAnimation rightAnim;
 
+    public Rigidbody torsoRb;
+    public Rigidbody headRb;
+
     ConfigurableJoint hipsCj;
     Rigidbody hipsRb;
+
 
     public AutoAim autoAim;
 
@@ -29,6 +33,8 @@ public class DefaultEnemyController : MonoBehaviour
 
     public float speed;
     public float airSpring;
+    public float rotationForce;
+    public float force;
 
     public bool isGrounded;
     public bool isDead;
@@ -39,7 +45,7 @@ public class DefaultEnemyController : MonoBehaviour
     JointDrive inAirDrive;
     JointDrive hipsInAirDrive;
 
-    NavMeshAgent agent;
+    NavMeshAgent navMeshAgent;
     
     private void Start()
     {
@@ -51,6 +57,13 @@ public class DefaultEnemyController : MonoBehaviour
         hipsInAirDrive.maximumForce = Mathf.Infinity;
         hipsInAirDrive.positionSpring = 0;
 
+        navMeshAgent = GetComponent<NavMeshAgent>();
+
+        navMeshAgent.updatePosition = false;
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
+
+        navMeshAgent.SetDestination(followObj.position);
 
         hipsRb = GetComponent<Rigidbody>();
         hipsCj = GetComponent<ConfigurableJoint>();
@@ -83,6 +96,7 @@ public class DefaultEnemyController : MonoBehaviour
     {
         if (isGrounded)
         {
+            StabilizeBody();
             Move();
         }
     }
@@ -101,6 +115,12 @@ public class DefaultEnemyController : MonoBehaviour
         polesParent.eulerAngles = new Vector3(polesParent.eulerAngles.x, hips.eulerAngles.y, polesParent.eulerAngles.z);
     }
 
+    void StabilizeBody()
+    {
+        headRb.AddForce(Vector3.up * force);
+        torsoRb.AddForce(-torsoRb.velocity * 0.05f);
+        hipsRb.AddForce(Vector3.down * force);
+    }
 
     void Move ()
     {
@@ -111,7 +131,12 @@ public class DefaultEnemyController : MonoBehaviour
 
             hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
 
-            hipsCj.targetRotation = Quaternion.Inverse(Quaternion.LookRotation(followObj.position - transform.position));
+            float rootAngle = transform.eulerAngles.y;
+            float desiredAngle = Quaternion.LookRotation(followObj.position - transform.position).eulerAngles.y;
+
+            float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
+
+            hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
         else
         {
@@ -119,7 +144,13 @@ public class DefaultEnemyController : MonoBehaviour
             locVel.z = 0;
             locVel.x = 0;
             hipsRb.velocity = locVel;
-            hipsCj.targetRotation = Quaternion.Inverse(Quaternion.LookRotation(followObj.position - transform.position));
+
+            float rootAngle = transform.eulerAngles.y;
+            float desiredAngle = Quaternion.LookRotation(followObj.position - transform.position).eulerAngles.y;
+
+            float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
+
+            hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
 
     }
