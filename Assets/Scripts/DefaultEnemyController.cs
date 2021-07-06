@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class DefaultEnemyController : MonoBehaviour
 {
-    public Transform followObj;
+    public Transform ObjToFollow;
     public Transform hips;
     public Transform homesParent;
     public Transform polesParent;
@@ -34,6 +34,7 @@ public class DefaultEnemyController : MonoBehaviour
     public float speed;
     public float airSpring;
     public float rotationForce;
+    public float torsoBalanceForce;
     public float force;
 
     public bool isGrounded;
@@ -46,6 +47,8 @@ public class DefaultEnemyController : MonoBehaviour
     JointDrive hipsInAirDrive;
 
     NavMeshAgent navMeshAgent;
+
+    Vector3 currentTargetPos;
     
     private void Start()
     {
@@ -62,8 +65,6 @@ public class DefaultEnemyController : MonoBehaviour
         navMeshAgent.updatePosition = false;
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
-
-        navMeshAgent.SetDestination(followObj.position);
 
         hipsRb = GetComponent<Rigidbody>();
         hipsCj = GetComponent<ConfigurableJoint>();
@@ -89,6 +90,8 @@ public class DefaultEnemyController : MonoBehaviour
         {
             StartCoroutine(AlternatingLegUpdate());
         }
+
+        currentTargetPos = FindNextTargetPosOnPath();
         
     }
 
@@ -118,41 +121,64 @@ public class DefaultEnemyController : MonoBehaviour
     void StabilizeBody()
     {
         headRb.AddForce(Vector3.up * force);
-        torsoRb.AddForce(-torsoRb.velocity * 0.05f);
+        torsoRb.AddForce(-new Vector3(torsoRb.velocity.x, 0, torsoRb.velocity.z) * torsoBalanceForce, ForceMode.Acceleration);
         hipsRb.AddForce(Vector3.down * force);
     }
 
     void Move ()
     {
-        if (Vector3.Distance(transform.position, followObj.position) > 4)
-        { 
+        if (Vector3.Distance(transform.position, ObjToFollow.position) > 4)
+        {
+            if (Vector3.Distance(transform.position, currentTargetPos) <= .5f)
+            {
+                currentTargetPos = FindNextTargetPosOnPath();
+            }
+            else
+            {
+                Vector3 move = (currentTargetPos - transform.position).normalized;
 
-            Vector3 move = (followObj.position - transform.position).normalized;
+                hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
 
-            hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
+                float rootAngle = transform.eulerAngles.y;
+                float desiredAngle = Quaternion.LookRotation(currentTargetPos - transform.position).eulerAngles.y;
 
-            float rootAngle = transform.eulerAngles.y;
-            float desiredAngle = Quaternion.LookRotation(followObj.position - transform.position).eulerAngles.y;
+                float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
 
-            float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
-
-            hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
+                hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
+            }
         }
         else
         {
-            var locVel = hipsRb.velocity;
+            Vector3 locVel = hipsRb.velocity;
             locVel.z = 0;
             locVel.x = 0;
             hipsRb.velocity = locVel;
 
             float rootAngle = transform.eulerAngles.y;
-            float desiredAngle = Quaternion.LookRotation(followObj.position - transform.position).eulerAngles.y;
+            float desiredAngle = Quaternion.LookRotation(ObjToFollow.position - transform.position).eulerAngles.y;
 
             float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
 
             hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
 
+    }
+
+    Vector3 FindNextTargetPosOnPath()
+    {
+        navMeshAgent.enabled = true;
+
+        NavMeshPath path = new NavMeshPath();
+        if(navMeshAgent.CalculatePath(ObjToFollow.position, path))
+        {
+            navMeshAgent.path = path;
+        }
+
+        Vector3 pos = navMeshAgent.steeringTarget;
+
+        navMeshAgent.enabled = false;
+
+        return pos;
     }
 
     void CheckGrounded()
