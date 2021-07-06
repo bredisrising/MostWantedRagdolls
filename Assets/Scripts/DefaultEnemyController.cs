@@ -10,6 +10,8 @@ public class DefaultEnemyController : MonoBehaviour
     public Transform homesParent;
     public Transform polesParent;
 
+    public Transform guideSphere;
+
     public Transform leftFoot;
     public Transform rightFoot;
 
@@ -92,6 +94,7 @@ public class DefaultEnemyController : MonoBehaviour
         }
 
         currentTargetPos = FindNextTargetPosOnPath();
+        guideSphere.position = currentTargetPos;
         
     }
 
@@ -122,7 +125,9 @@ public class DefaultEnemyController : MonoBehaviour
     {
         headRb.AddForce(Vector3.up * force);
         torsoRb.AddForce(-new Vector3(torsoRb.velocity.x, 0, torsoRb.velocity.z) * torsoBalanceForce, ForceMode.Acceleration);
+        headRb.AddForce(-new Vector3(headRb.velocity.x, 0, headRb.velocity.z) * torsoBalanceForce, ForceMode.Acceleration);
         hipsRb.AddForce(Vector3.down * force);
+        //hipsRb.AddTorque(-hipsRb.angularVelocity * torsoBalanceForce, ForceMode.Acceleration);
     }
 
     void Move ()
@@ -130,8 +135,9 @@ public class DefaultEnemyController : MonoBehaviour
         if (Vector3.Distance(transform.position, ObjToFollow.position) > 4)
         {
             if (Vector3.Distance(transform.position, currentTargetPos) <= .5f)
-            {
+            { 
                 currentTargetPos = FindNextTargetPosOnPath();
+                guideSphere.position = currentTargetPos;
             }
             else
             {
@@ -149,6 +155,7 @@ public class DefaultEnemyController : MonoBehaviour
         }
         else
         {
+
             Vector3 locVel = hipsRb.velocity;
             locVel.z = 0;
             locVel.x = 0;
@@ -168,12 +175,15 @@ public class DefaultEnemyController : MonoBehaviour
     {
         navMeshAgent.enabled = true;
 
-        NavMeshPath path = new NavMeshPath();
-        if(navMeshAgent.CalculatePath(ObjToFollow.position, path))
+        if (navMeshAgent.isOnNavMesh)
         {
-            navMeshAgent.path = path;
-        }
+            NavMeshPath path = new NavMeshPath();
+            if (navMeshAgent.CalculatePath(ObjToFollow.position, path))
+            {
+                navMeshAgent.path = path;
+            }
 
+        }
         Vector3 pos = navMeshAgent.steeringTarget;
 
         navMeshAgent.enabled = false;
