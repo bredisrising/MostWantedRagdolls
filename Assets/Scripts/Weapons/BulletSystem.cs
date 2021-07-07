@@ -45,7 +45,7 @@ public class BulletSystem : MonoBehaviour
                 if (controller.isGrounded)
                 {
                     controller.Die();
-                    controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.Acceleration);
+                    controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                 }
             }
             else

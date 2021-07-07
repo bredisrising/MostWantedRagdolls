@@ -34,14 +34,14 @@ public class DefaultEnemyController : MonoBehaviour
     LayerMask groundMask;
 
     public float speed;
+    public float maxVelocityChange;
     public float airSpring;
     public float rotationForce;
-    public float torsoBalanceForce;
     public float force;
 
-    public bool isGrounded;
+    bool isGrounded = true;
     public bool isDead;
-    public bool alternateLegs;
+    bool alternateLegs = true;
 
     public ConfigurableJoint[] cjs;
     JointDrive[] jds;
@@ -125,7 +125,7 @@ public class DefaultEnemyController : MonoBehaviour
     {
         headRb.AddForce(Vector3.up * force);
         hipsRb.AddForce(Vector3.down * force);
-        hipsRb.AddTorque(-hipsRb.angularVelocity * torsoBalanceForce, ForceMode.Acceleration);
+        hipsRb.AddTorque(-hipsRb.angularVelocity * rotationForce, ForceMode.Acceleration);
     }
 
     void Move ()
@@ -144,11 +144,15 @@ public class DefaultEnemyController : MonoBehaviour
                 //hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
                 //torsoRb.velocity = new Vector3(move.x * speed, torsoRb.velocity.y, move.z * speed);
 
-                Vector3 velocity = hipsRb.velocity;
-                Vector3 velocityChange = (new Vector3(move.x * speed, 0, move.z * speed) - velocity);
+                Vector3 targetVelocity = new Vector3(move.x, 0, move.z);
+                targetVelocity *= speed;
 
-                //hipsRb.AddForce(velocityChange, ForceMode.Impulse);
-                //torsoRb.AddForce(velocityChange, ForceMode.Impulse);
+                Vector3 velocity = hipsRb.velocity;
+                Vector3 velocityChange = (targetVelocity - velocity);
+                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+                velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+                velocityChange.y = 0;
+                hipsRb.AddForce(velocityChange, ForceMode.VelocityChange);
 
                 float rootAngle = transform.eulerAngles.y;
                 float desiredAngle = Quaternion.LookRotation(currentTargetPos - transform.position).eulerAngles.y;

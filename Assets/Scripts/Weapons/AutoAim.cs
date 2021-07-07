@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AutoAim : MonoBehaviour
 {
-    public bool isEnemy;
-
     public Camera cam;
 
     public GameObject aimTargets;
@@ -43,27 +41,21 @@ public class AutoAim : MonoBehaviour
         target = new GameObject(this.name + " target");
         target.transform.parent = aimTargets.transform;
 
-        if (!isEnemy)
-        {
-            StartCoroutine("FindTargetsWithDelay", .2f);
-        }
+        StartCoroutine("FindTargetsWithDelay", .2f);
+        
 
     }
 
     private void Update()
     {
-        if (!isEnemy)
+        Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(cameraRay, out hit, Mathf.Infinity))
         {
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(cameraRay, out hit, Mathf.Infinity))
-            {
-                pointToLook = hit.point;
-                Debug.DrawLine(cameraRay.origin, pointToLook, Color.cyan);
-            }
+            pointToLook = hit.point;
         }
-
+        
 
         float step = speed * Time.deltaTime;
         target.transform.position = Vector3.MoveTowards(target.transform.position, aimTarget, step);
