@@ -124,10 +124,8 @@ public class DefaultEnemyController : MonoBehaviour
     void StabilizeBody()
     {
         headRb.AddForce(Vector3.up * force);
-        torsoRb.AddForce(-new Vector3(torsoRb.velocity.x, 0, torsoRb.velocity.z) * torsoBalanceForce, ForceMode.Acceleration);
-        headRb.AddForce(-new Vector3(headRb.velocity.x, 0, headRb.velocity.z) * torsoBalanceForce, ForceMode.Acceleration);
         hipsRb.AddForce(Vector3.down * force);
-        //hipsRb.AddTorque(-hipsRb.angularVelocity * torsoBalanceForce, ForceMode.Acceleration);
+        hipsRb.AddTorque(-hipsRb.angularVelocity * torsoBalanceForce, ForceMode.Acceleration);
     }
 
     void Move ()
@@ -143,7 +141,14 @@ public class DefaultEnemyController : MonoBehaviour
             {
                 Vector3 move = (currentTargetPos - transform.position).normalized;
 
-                hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
+                //hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
+                //torsoRb.velocity = new Vector3(move.x * speed, torsoRb.velocity.y, move.z * speed);
+
+                Vector3 velocity = hipsRb.velocity;
+                Vector3 velocityChange = (new Vector3(move.x * speed, 0, move.z * speed) - velocity);
+
+                //hipsRb.AddForce(velocityChange, ForceMode.Impulse);
+                //torsoRb.AddForce(velocityChange, ForceMode.Impulse);
 
                 float rootAngle = transform.eulerAngles.y;
                 float desiredAngle = Quaternion.LookRotation(currentTargetPos - transform.position).eulerAngles.y;
@@ -160,6 +165,7 @@ public class DefaultEnemyController : MonoBehaviour
             locVel.z = 0;
             locVel.x = 0;
             hipsRb.velocity = locVel;
+            torsoRb.velocity = locVel;
 
             float rootAngle = transform.eulerAngles.y;
             float desiredAngle = Quaternion.LookRotation(ObjToFollow.position - transform.position).eulerAngles.y;

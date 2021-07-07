@@ -37,7 +37,7 @@ public class BulletSystem : MonoBehaviour
                 {
                     //controller.Die(true);
                 }
-                controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.Acceleration);
+                controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
             }
             else if(other.transform.tag == "Billy")
             {
@@ -52,7 +52,7 @@ public class BulletSystem : MonoBehaviour
             {
                 if(other.transform.tag == "Weapon")
                 {
-                    other.attachedRigidbody.AddForce(bulletDirection.normalized * hitForce, ForceMode.Acceleration);
+                    other.attachedRigidbody.AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                 }
                 
             }
