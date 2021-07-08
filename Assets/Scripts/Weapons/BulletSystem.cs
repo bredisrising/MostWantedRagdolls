@@ -9,7 +9,15 @@ public class BulletSystem : MonoBehaviour
     float hitForce;
     Vector3 bulletDirection;
 
+    Collider thisCollider;
+
     bool isDead;
+
+    private void Start()
+    {
+        thisCollider = GetComponent<Collider>();
+    }
+
     public void Setup(float bulletSpeed, Vector3 bulletDirection, float hitForce)
     {
         this.bulletSpeed = bulletSpeed;
@@ -28,36 +36,41 @@ public class BulletSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.attachedRigidbody != null && other.transform.root.name != "Player")
+        if(other.transform.root.name != "Player")
         {
-            if(other.transform.tag == "Enemy")
+            thisCollider.enabled = false;
+            Destroy(gameObject);
+            if(other.attachedRigidbody != null)
             {
-                DefaultEnemyController controller = other.transform.root.GetComponentInChildren<DefaultEnemyController>();
-                if (!controller.isDead)
+                if (other.transform.tag == "Enemy")
                 {
-                    //controller.Die(true);
-                }
-                controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
-            }
-            else if(other.transform.tag == "Billy")
-            {
-                BillyController controller = other.transform.root.GetComponentInChildren<BillyController>();
-                if (controller.isGrounded)
-                {
-                    controller.Die();
+                    DefaultEnemyController controller = other.transform.root.GetComponentInChildren<DefaultEnemyController>();
+                    if (!controller.isDead)
+                    {
+                        //controller.Die(true);
+                    }
                     controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
+                    //Debug.Log("Hit!  " + other.transform.name);
                 }
-            }
-            else
-            {
-                if(other.transform.tag == "Weapon")
+                else if (other.transform.tag == "Billy")
                 {
-                    other.attachedRigidbody.AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
+                    BillyController controller = other.transform.root.GetComponentInChildren<BillyController>();
+                    if (controller.isGrounded)
+                    {
+                        controller.Die();
+                        controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
+                    }
                 }
-                
-            }
+                else
+                {
+                    if (other.transform.tag == "Weapon")
+                    {
+                        other.attachedRigidbody.AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
+                    }
 
-            Destroy(this.gameObject);
+                }
+            }
+            
         }
     }
 }

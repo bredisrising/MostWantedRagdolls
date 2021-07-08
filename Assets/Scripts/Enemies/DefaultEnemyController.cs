@@ -10,8 +10,6 @@ public class DefaultEnemyController : MonoBehaviour
     public Transform homesParent;
     public Transform polesParent;
 
-    public Transform guideSphere;
-
     public Transform leftFoot;
     public Transform rightFoot;
 
@@ -94,7 +92,6 @@ public class DefaultEnemyController : MonoBehaviour
         }
 
         currentTargetPos = FindNextTargetPosOnPath();
-        guideSphere.position = currentTargetPos;
         
     }
 
@@ -135,7 +132,6 @@ public class DefaultEnemyController : MonoBehaviour
             if (Vector3.Distance(transform.position, currentTargetPos) <= .5f)
             { 
                 currentTargetPos = FindNextTargetPosOnPath();
-                guideSphere.position = currentTargetPos;
             }
             else
             {
