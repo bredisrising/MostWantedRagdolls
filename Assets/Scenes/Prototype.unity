@@ -1496,7 +1496,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.36089915, y: -0.0000000160467, z: 0.0000000062097474, w: 0.93260485}
+  m_LocalRotation: {x: 0.36089915, y: -0.00000001595171, z: 0.0000000061729883, w: 0.93260485}
   m_LocalPosition: {x: -1.562, y: 7.5817447, z: 5.4399996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1892,7 +1892,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346165068}
-  m_LocalRotation: {x: -0, y: 4.673595e-12, z: -4.2543746e-12, w: 1}
+  m_LocalRotation: {x: -0, y: 7.2784445e-11, z: -6.6253225e-11, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1929,7 +1929,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 1.6792669, y: 1}
+    m_SensorSize: {x: 1.6773455, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -2449,7 +2449,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8067450774708701678, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
       propertyPath: maxVelocityChange
-      value: 0.76
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067450774708701678, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
+      propertyPath: feetGroundCheckDist
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067450774708701682, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067450774708701683, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -6372,9 +6380,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3200936025395943789, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
+      propertyPath: recoil
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3200936025395943789, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
       propertyPath: autoAim
       value: 
       objectReference: {fileID: 879622453699846755}
+    - target: {fileID: 3200936025395943789, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
+      propertyPath: fireRate
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3200936025395943789, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
       propertyPath: hitForce
       value: 5
