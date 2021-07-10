@@ -26,6 +26,7 @@ public class WeaponSwitching : MonoBehaviour
                     
                     currentGunHeld.GetComponent<GunSystem>().isEquipped = true;
                     currentGunHeld.GetComponent<Rigidbody>().isKinematic = true;
+                    currentGunHeld.GetComponent<GunSystem>().upperArm = transform.parent.parent.GetComponent<Rigidbody>(); ;
                     
                     currentGunHeld.parent = transform;
 

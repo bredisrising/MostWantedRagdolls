@@ -26,7 +26,6 @@ public class DefaultEnemyController : MonoBehaviour
     ConfigurableJoint hipsCj;
     Rigidbody hipsRb;
 
-
     public AutoAim autoAim;
 
     LayerMask groundMask;
@@ -212,7 +211,6 @@ public class DefaultEnemyController : MonoBehaviour
         if ((rightCheck || leftCheck) && !isGrounded)
         {
             StartCoroutine(DelayBeforeStand(3));
-            Debug.Log("Help! Ive Fallen And I Cant Get Back Up!");
         }
         else if((!rightCheck && !leftCheck) && isGrounded)
         {

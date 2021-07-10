@@ -13,16 +13,19 @@ public class BulletSystem : MonoBehaviour
 
     bool isDead;
 
+    Transform whoSpawnedMe;
+
     private void Start()
     {
         thisCollider = GetComponent<Collider>();
     }
 
-    public void Setup(float bulletSpeed, Vector3 bulletDirection, float hitForce)
+    public void Setup(float bulletSpeed, Vector3 bulletDirection, float hitForce, Transform whoSpawnedMe)
     {
         this.bulletSpeed = bulletSpeed;
         this.bulletDirection = bulletDirection;
         this.hitForce = hitForce;
+        this.whoSpawnedMe = whoSpawnedMe;
     }
 
     private void Update()
@@ -36,7 +39,7 @@ public class BulletSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.root.name != "Player")
+        if(other.transform.root != whoSpawnedMe)
         {
             thisCollider.enabled = false;
             Destroy(gameObject);
@@ -60,6 +63,10 @@ public class BulletSystem : MonoBehaviour
                         controller.Die();
                         controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                     }
+                }else if (other.transform.root.GetComponentInChildren<PlayerController>())
+                {
+                    PlayerController controller = other.transform.root.GetComponentInChildren<PlayerController>();
+                    
                 }
                 else
                 {

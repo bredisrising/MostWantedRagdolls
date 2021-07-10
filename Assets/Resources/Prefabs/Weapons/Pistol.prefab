@@ -223,14 +223,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747226653435358570}
-  m_LocalRotation: {x: 0.07284389, y: 0.019556535, z: -0.11645195, w: 0.99032843}
+  m_LocalRotation: {x: 0.072841436, y: 0.019552667, z: -0.116453886, w: 0.9903285}
   m_LocalPosition: {x: -2.13, y: 1.52, z: 12.74}
   m_LocalScale: {x: 0.5999999, y: 0.5999998, z: 0.60000086}
   m_Children:
   - {fileID: 1444088214133127525}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 8.559, y: 1.261, z: -13.319}
 --- !u!114 &1747226653435358572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
   upperArm: {fileID: 0}
   autoAim: {fileID: 0}
   recoil: 10
-  hitForce: 900
+  hitForce: 25
   jumpForce: 3
   bloom: 0
   fireRate: 3
