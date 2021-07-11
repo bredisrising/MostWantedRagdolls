@@ -66,7 +66,7 @@ public class BulletSystem : MonoBehaviour
                 }else if (other.transform.root.GetComponentInChildren<PlayerController>())
                 {
                     PlayerController controller = other.transform.root.GetComponentInChildren<PlayerController>();
-                    
+                    controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                 }
                 else
                 {

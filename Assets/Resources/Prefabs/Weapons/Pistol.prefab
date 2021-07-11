@@ -245,16 +245,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperArm: {fileID: 0}
   autoAim: {fileID: 0}
+  enemyAutoAim: {fileID: 0}
   recoil: 10
-  hitForce: 25
+  hitForce: 20
   jumpForce: 3
   bloom: 0
-  fireRate: 3
+  fireRate: 1.5
   projectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
   projectileSpeed: 10
   spawnOffset: 0.5
   spawnPoint: {fileID: 1747226653467474806}
   isEquipped: 0
+  hasEnemyEquipped: 0
+  canShoot: 0
 --- !u!54 &1747226653435358574
 Rigidbody:
   m_ObjectHideFlags: 0

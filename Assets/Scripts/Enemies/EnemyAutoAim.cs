@@ -30,7 +30,7 @@ public class EnemyAutoAim : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
 
-        currentGunHeld = Instantiate(weapons[Random.Range(0, weapons.Length - 1)]).transform;
+        currentGunHeld = Instantiate(weapons[Random.Range(0, weapons.Length)]).transform;
 
         currentGunSystem = currentGunHeld.GetComponent<GunSystem>();
 
@@ -52,8 +52,7 @@ public class EnemyAutoAim : MonoBehaviour
         if(Physics.Raycast(hips.position, aimAt.position - hips.position, out hit, Mathf.Infinity, groundMask) && canAim)
         {
             if(hit.transform == aimAt)
-            {
-                Debug.Log("Enemy Spotted!");
+            { 
 
                 rb.angularDrag = drag;
                 Vector3 targetDelta = aimAt.position - transform.position;

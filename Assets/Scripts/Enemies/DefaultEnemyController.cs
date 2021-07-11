@@ -34,7 +34,8 @@ public class DefaultEnemyController : MonoBehaviour
     public float maxVelocityChange;
     public float airSpring;
     public float rotationForce;
-    public float force;
+    public float rotationBalanceForce;
+    public float balanceForce;
 
     bool isGrounded = true;
     public bool isDead;
@@ -119,14 +120,14 @@ public class DefaultEnemyController : MonoBehaviour
 
     void StabilizeBody()
     {
-        headRb.AddForce(Vector3.up * force);
-        hipsRb.AddForce(Vector3.down * force);
-        hipsRb.AddTorque(-hipsRb.angularVelocity * rotationForce, ForceMode.Acceleration);
+        headRb.AddForce(Vector3.up * balanceForce);
+        hipsRb.AddForce(Vector3.down * balanceForce);
+        hipsRb.AddTorque(-hipsRb.angularVelocity * rotationBalanceForce, ForceMode.Acceleration);
     }
 
     void Move ()
     {
-        if (Vector3.Distance(transform.position, ObjToFollow.position) > 4)
+        if (Vector3.Distance(transform.position, ObjToFollow.position) > 4 && navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
         {
             if (Vector3.Distance(transform.position, currentTargetPos) <= .5f)
             { 
@@ -135,9 +136,6 @@ public class DefaultEnemyController : MonoBehaviour
             else
             {
                 Vector3 move = (currentTargetPos - transform.position).normalized;
-
-                //hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
-                //torsoRb.velocity = new Vector3(move.x * speed, torsoRb.velocity.y, move.z * speed);
 
                 Vector3 targetVelocity = new Vector3(move.x, 0, move.z);
                 targetVelocity *= speed;
@@ -159,12 +157,15 @@ public class DefaultEnemyController : MonoBehaviour
         }
         else
         {
+            Vector3 targetVelocity = new Vector3(0, hipsRb.velocity.y, 0);
+            Vector3 velocity = hipsRb.velocity;
+            Vector3 velocityChange = targetVelocity - velocity;
 
-            Vector3 locVel = hipsRb.velocity;
-            locVel.z = 0;
-            locVel.x = 0;
-            hipsRb.velocity = locVel;
-            torsoRb.velocity = locVel;
+            velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+            velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+            velocityChange.y = 0;
+            hipsRb.AddForce(velocityChange, ForceMode.VelocityChange);
+
 
             float rootAngle = transform.eulerAngles.y;
             float desiredAngle = Quaternion.LookRotation(ObjToFollow.position - transform.position).eulerAngles.y;
@@ -186,6 +187,7 @@ public class DefaultEnemyController : MonoBehaviour
             if (navMeshAgent.CalculatePath(ObjToFollow.position, path))
             {
                 navMeshAgent.path = path;
+                Debug.Log(path.status);
             }
 
         }
@@ -203,10 +205,16 @@ public class DefaultEnemyController : MonoBehaviour
         RaycastHit hit;
 
         if (Physics.Raycast(leftFoot.position, Vector3.down, out hit, feetGroundCheckDist, groundMask))
+        {
             leftCheck = true;
-
+            Debug.DrawLine(leftFoot.position, Vector3.down * feetGroundCheckDist, Color.red);
+        }
         if (Physics.Raycast(rightFoot.position, Vector3.down, out hit, feetGroundCheckDist, groundMask))
+        {
             rightCheck = true;
+            Debug.DrawLine(rightFoot.position, Vector3.down * feetGroundCheckDist, Color.red);
+        }
+            
 
         if ((rightCheck || leftCheck) && !isGrounded)
         {

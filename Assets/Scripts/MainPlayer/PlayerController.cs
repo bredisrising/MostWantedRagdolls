@@ -24,12 +24,15 @@ public class PlayerController : MonoBehaviour
 
     ConfigurableJoint hipsCj;
     Rigidbody hipsRb;
-    
+
+    public Rigidbody headRb;
 
     LayerMask groundMask;
 
     public float speed;
-    public float maxSpeed;
+    public float maxVelocityChange;
+    public float rotationForce;
+    public float balanceForce;
     public float jumpForce;
 
     public bool isGrounded;
@@ -41,8 +44,6 @@ public class PlayerController : MonoBehaviour
     JointDrive[] jds;
     JointDrive inAirDrive;
     JointDrive hipsInAirDrive;
-
-    Vector3 playerRotation = new Vector3();
 
     public float airSpring;
     private void Start()
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
+            StabilizeBody();
             Move();
         }
 
@@ -124,14 +126,20 @@ public class PlayerController : MonoBehaviour
        
     }
 
-    void Move ()
+    void StabilizeBody()
+    {
+        headRb.AddForce(Vector3.up * balanceForce);
+        hipsRb.AddForce(Vector3.down * balanceForce);
+    }
+
+    void Move()
     {
         Vector3 move = new Vector3(horizontal, 0f, vertical);
         move = cam.TransformDirection(move);
-        move = new Vector3(move.x, 0, move.z).normalized * speed;
-        move = new Vector3(move.x, hipsRb.velocity.y, move.z);
+        //move = new Vector3(move.x, 0, move.z).normalized * speed;
+        //move = new Vector3(move.x, hipsRb.velocity.y, move.z);
 
-        if (new Vector3(move.x, 0, move.z).magnitude > 0.01)
+        /*if (new Vector3(move.x, 0, move.z).magnitude > 0.01)
         {
             hipsRb.velocity = move;
             torsoCj.targetRotation = Quaternion.Euler(-5, 0, 0);
@@ -141,10 +149,36 @@ public class PlayerController : MonoBehaviour
         {
             torsoCj.targetRotation = Quaternion.identity;
             hipsRb.velocity = move;
+        }*/
+
+        Vector3 targetVelocity = new Vector3(move.x, 0, move.z);
+        targetVelocity *= speed;
+
+        Vector3 velocity = hipsRb.velocity;
+        Vector3 velocityChange = (targetVelocity - velocity);
+        velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+        velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+        velocityChange.y = 0;
+        hipsRb.AddForce(velocityChange, ForceMode.VelocityChange);
+
+        float desiredAngle = 0;
+        float rootAngle = transform.eulerAngles.y;
+
+        if(targetVelocity.normalized != Vector3.zero)
+        {
+             desiredAngle = Quaternion.LookRotation(targetVelocity.normalized).eulerAngles.y;
         }
-        
-        if(playerRotation != Vector3.zero)
-            hips.rotation = Quaternion.LookRotation(playerRotation);
+
+        float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
+        }
+
+        //Debug.Log(targetVelocity.magnitude);
+        /*if (playerRotation != Vector3.zero)
+            hips.rotation = Quaternion.LookRotation(playerRotation);*/
 
 
     }

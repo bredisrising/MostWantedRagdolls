@@ -47,7 +47,9 @@ public class GunSystem : MonoBehaviour
 
     void Shoot(bool isEnemy)
     {
-        upperArm.AddForce(-upperArm.transform.forward * recoil, ForceMode.Impulse);
+
+        if (!isEnemy)
+            upperArm.AddForce(-upperArm.transform.forward * recoil, ForceMode.Impulse);
 
         if (!isEnemy)
         {
