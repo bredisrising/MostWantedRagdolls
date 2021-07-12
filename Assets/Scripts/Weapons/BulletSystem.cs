@@ -53,7 +53,6 @@ public class BulletSystem : MonoBehaviour
                         //controller.Die(true);
                     }
                     controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
-                    //Debug.Log("Hit!  " + other.transform.name);
                 }
                 else if (other.transform.tag == "Billy")
                 {
@@ -61,21 +60,26 @@ public class BulletSystem : MonoBehaviour
                     if (controller.isGrounded)
                     {
                         controller.Die();
-                        controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
+                        
                     }
-                }else if (other.transform.root.GetComponentInChildren<PlayerController>())
+                    controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
+                }
+                else if (other.transform.root.GetComponentInChildren<PlayerController>())
                 {
                     PlayerController controller = other.transform.root.GetComponentInChildren<PlayerController>();
                     controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                 }
                 else
                 {
-                    if (other.transform.tag == "Weapon")
+                    if (other.transform.tag != "Weapon")
                     {
                         other.attachedRigidbody.AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                     }
 
                 }
+
+              
+
             }
             
         }

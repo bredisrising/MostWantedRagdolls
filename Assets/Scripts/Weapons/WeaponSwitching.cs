@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class WeaponSwitching : MonoBehaviour
 {
@@ -26,18 +25,20 @@ public class WeaponSwitching : MonoBehaviour
 
                         currentGunHeld = hit.collider.gameObject.transform.root;
 
-                        currentGunHeld.GetComponent<GunSystem>().isEquipped = true;
+                        GunSystem currentGunSystem = currentGunHeld.GetComponent<GunSystem>();
+
+                        currentGunSystem.isEquipped = true;
                         currentGunHeld.GetComponent<Rigidbody>().isKinematic = true;
-                        currentGunHeld.GetComponent<GunSystem>().upperArm = transform.parent.parent.GetComponent<Rigidbody>(); ;
+                        currentGunSystem.upperArm = transform.parent.parent.GetComponent<Rigidbody>(); ;
 
                         currentGunHeld.parent = transform;
 
                         currentGunHeld.position = transform.position;
                         currentGunHeld.localRotation = Quaternion.LookRotation(Vector3.right, -Vector3.right);
-                    }
-                    
 
-                    //currentGunHeld.GetChild(0).transform.position = currentGunHeld.position;
+                        currentGunSystem.Equip();
+                    }
+                   
 
                 }
             }

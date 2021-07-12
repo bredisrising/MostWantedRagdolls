@@ -269,7 +269,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2330904921342840166}
-  m_LocalRotation: {x: -0, y: -0, z: -6.984919e-10, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.147, y: 0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -288,7 +288,7 @@ Transform:
   - {fileID: 532024243}
   m_Father: {fileID: 3200936025395943788}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -0.552, y: -0.018, z: -85.656}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2330904921750939838
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,16 +450,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperArm: {fileID: 0}
   autoAim: {fileID: 0}
-  recoil: 12
-  hitForce: 5
-  jumpForce: 3
+  enemyAutoAim: {fileID: 0}
+  recoil: 4
+  hitForce: 4
   bloom: 0
-  fireRate: 7
+  ammoCount: 30
+  fireRate: 5
+  projectileSpeed: 15
+  reloadSpeed: 3
   projectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
-  projectileSpeed: 20
-  spawnOffset: 0
   spawnPoint: {fileID: 3200936025361207159}
+  currentAmmo: 0
   isEquipped: 0
+  hasEnemyEquipped: 0
+  canShoot: 0
+  ammoText: {fileID: 0}
+  reloadProgress: {fileID: 0}
 --- !u!54 &3200936025395943791
 Rigidbody:
   m_ObjectHideFlags: 0
