@@ -452,20 +452,18 @@ MonoBehaviour:
   autoAim: {fileID: 0}
   enemyAutoAim: {fileID: 0}
   recoil: 4
-  hitForce: 4
+  hitForce: 5
   bloom: 0
   ammoCount: 30
   fireRate: 5
   projectileSpeed: 15
-  reloadSpeed: 3
+  reloadSpeed: 2
   projectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
   spawnPoint: {fileID: 3200936025361207159}
   currentAmmo: 0
   isEquipped: 0
   hasEnemyEquipped: 0
   canShoot: 0
-  ammoText: {fileID: 0}
-  reloadProgress: {fileID: 0}
 --- !u!54 &3200936025395943791
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -66,7 +66,7 @@ public class AutoAim : MonoBehaviour
         if (isAiming)
         {
             rb.angularDrag = drag;
-            Vector3 targetDelta = target.transform.position - transform.position;
+            Vector3 targetDelta = aimTarget - transform.position;
 
             float angleDiff = Vector3.Angle(transform.forward, targetDelta);
 

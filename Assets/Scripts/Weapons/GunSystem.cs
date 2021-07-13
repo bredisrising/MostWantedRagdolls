@@ -6,9 +6,9 @@ using TMPro;
 
 public class GunSystem : MonoBehaviour
 {
-    public Rigidbody upperArm;
-    public AutoAim autoAim;
-    public EnemyAutoAim enemyAutoAim;
+    [HideInInspector] public Rigidbody upperArm;
+    [HideInInspector] public AutoAim autoAim;
+    [HideInInspector] public EnemyAutoAim enemyAutoAim;
 
     public float recoil;
     public float hitForce;
@@ -28,16 +28,19 @@ public class GunSystem : MonoBehaviour
     public bool hasEnemyEquipped = false;
     public bool canShoot = false;
 
-    public TextMeshProUGUI ammoText;
-    public Image reloadProgress;
+    TextMeshProUGUI ammoText;
+    Image reloadProgress;
 
     private void Start()
     {
         currentAmmo = ammoCount;
     }
 
-    public void Equip()
+    public void Equip(TextMeshProUGUI text, Image image)
     {
+        ammoText = text;
+        reloadProgress = image;
+
         ammoText.text = currentAmmo.ToString();
         reloadProgress.fillAmount = currentAmmo / ammoCount;
     }
@@ -71,7 +74,11 @@ public class GunSystem : MonoBehaviour
     void Reload()
     {
         currentAmmo = ammoCount;
-        ammoText.text = currentAmmo.ToString();
+        if (isEquipped)
+        {
+            ammoText.text = currentAmmo.ToString();
+        }
+
     }
 
     void Shoot(bool isEnemy)

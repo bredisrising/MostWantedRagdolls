@@ -251,16 +251,14 @@ MonoBehaviour:
   bloom: 0
   ammoCount: 16
   fireRate: 1
-  projectileSpeed: 15
-  reloadSpeed: 0
+  projectileSpeed: 11
+  reloadSpeed: 1
   projectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
   spawnPoint: {fileID: 1747226653467474806}
   currentAmmo: 0
   isEquipped: 0
   hasEnemyEquipped: 0
   canShoot: 0
-  ammoText: {fileID: 0}
-  reloadProgress: {fileID: 0}
 --- !u!54 &1747226653435358574
 Rigidbody:
   m_ObjectHideFlags: 0

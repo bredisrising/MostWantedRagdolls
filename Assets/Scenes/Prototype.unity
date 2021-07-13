@@ -1229,7 +1229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.36078432}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1241,7 +1241,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1430,7 +1430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 127.4, y: -47.37}
+  m_AnchoredPosition: {x: 54.4, y: -47.369995}
   m_SizeDelta: {x: 201.7, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &904969019
@@ -1462,8 +1462,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443199
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0.78039217}
+    rgba: 989855743
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.22745098}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1487,7 +1487,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1583,7 +1583,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 40
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1608,7 +1608,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.36089915, y: -0.000000016046751, z: 0.000000006209768, w: 0.93260485}
+  m_LocalRotation: {x: 0.36089918, y: -0.000000007501673, z: 0.0000000029029947, w: 0.93260485}
   m_LocalPosition: {x: -1.562, y: 7.5817447, z: 5.4399996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1999,7 +1999,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346165068}
-  m_LocalRotation: {x: -0, y: -3.5527137e-15, z: 2.6645353e-15, w: 1}
+  m_LocalRotation: {x: 0.000000029802322, y: 0.000000009300028, z: -0.000000008465597, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2036,7 +2036,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 1.7784946, y: 1}
+    m_SensorSize: {x: 1.7789474, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3421,7 +3421,7 @@ MonoBehaviour:
   rightFoot: {fileID: 3790857213971500136}
   feetGroundCheckDist: 0.7
   headRb: {fileID: 7676967114367380453}
-  speed: 1
+  speed: 1.2
   maxVelocityChange: 1
   rotationForce: 15
   balanceForce: 100
@@ -5269,17 +5269,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 879622453699846755}
     - target: {fileID: 1747226653435358572, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
-      propertyPath: ammoText
-      value: 
-      objectReference: {fileID: 904969019}
-    - target: {fileID: 1747226653435358572, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
       propertyPath: upperArm
       value: 
       objectReference: {fileID: 879622453699846783}
-    - target: {fileID: 1747226653435358572, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
-      propertyPath: reloadProgress
-      value: 
-      objectReference: {fileID: 806015099}
     - target: {fileID: 1747226653435358573, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -6120,17 +6112,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 879622453699846755}
     - target: {fileID: 3200936025395943789, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
-      propertyPath: ammoText
-      value: 
-      objectReference: {fileID: 904969019}
-    - target: {fileID: 3200936025395943789, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
       propertyPath: upperArm
       value: 
       objectReference: {fileID: 879622453699846783}
-    - target: {fileID: 3200936025395943789, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
-      propertyPath: reloadProgress
-      value: 
-      objectReference: {fileID: 806015099}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
 --- !u!1 &4417992878183046785

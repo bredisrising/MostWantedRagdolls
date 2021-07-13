@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using Cinemachine;
 
 public class GameManager : MonoBehaviour
@@ -10,18 +12,14 @@ public class GameManager : MonoBehaviour
 
     public CinemachineTargetGroup cinemachineTargetGroup;
 
+
     // Start is called before the first frame update
     void Start()
-    {
+    { 
         foreach (Transform enemy in enemies)
         {
             cinemachineTargetGroup.AddMember(enemy, 1, 1);
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

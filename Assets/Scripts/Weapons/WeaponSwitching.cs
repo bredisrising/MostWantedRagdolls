@@ -1,9 +1,20 @@
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 
 public class WeaponSwitching : MonoBehaviour
 {
     public Transform currentGunHeld;
+
+    TextMeshProUGUI playerAmmoText;
+    Image playerAmmoProgressCr;
+
+    private void Start()
+    {
+        playerAmmoProgressCr = GameObject.Find("Radial").GetComponent<Image>();
+        playerAmmoText = GameObject.Find("AmmoCount").GetComponent<TextMeshProUGUI>();
+    }
+
     void Update()
     {
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -12,7 +23,7 @@ public class WeaponSwitching : MonoBehaviour
         {
             if (Physics.Raycast(cameraRay, out hit, Mathf.Infinity))
             {
-                if (hit.collider.gameObject.layer == 8)
+                if (hit.collider.gameObject.layer == 8 && !hit.collider.gameObject.GetComponent<GunSystem>().hasEnemyEquipped)
                 {
                     if(!hit.collider.gameObject.GetComponent<GunSystem>().isEquipped || !hit.collider.gameObject.GetComponent<GunSystem>().hasEnemyEquipped)
                     {
@@ -36,7 +47,7 @@ public class WeaponSwitching : MonoBehaviour
                         currentGunHeld.position = transform.position;
                         currentGunHeld.localRotation = Quaternion.LookRotation(Vector3.right, -Vector3.right);
 
-                        currentGunSystem.Equip();
+                        currentGunSystem.Equip(playerAmmoText, playerAmmoProgressCr);
                     }
                    
 

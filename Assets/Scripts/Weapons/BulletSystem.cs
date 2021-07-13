@@ -39,7 +39,9 @@ public class BulletSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.root != whoSpawnedMe)
+        Debug.Log(whoSpawnedMe.name);
+
+        if(other.transform.root != whoSpawnedMe && other.transform.tag != "Projectile")
         {
             thisCollider.enabled = false;
             Destroy(gameObject);
