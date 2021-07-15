@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Projectile
   - Billy
+  - PlayerTorso
+  - PlayerHips
   layers:
   - Default
   - TransparentFX

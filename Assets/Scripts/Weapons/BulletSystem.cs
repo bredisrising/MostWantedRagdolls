@@ -39,7 +39,8 @@ public class BulletSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(whoSpawnedMe.name);
+
+        //U SHOULD PROBABLY OPTIMIZE THIS!!!!!!
 
         if(other.transform.root != whoSpawnedMe && other.transform.tag != "Projectile")
         {
@@ -48,13 +49,13 @@ public class BulletSystem : MonoBehaviour
             if(other.attachedRigidbody != null)
             {
                 if (other.transform.tag == "Enemy")
-                {
+                { 
                     DefaultEnemyController controller = other.transform.root.GetComponentInChildren<DefaultEnemyController>();
                     if (!controller.isDead)
                     {
                         //controller.Die(true);
                     }
-                    controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
+                    other.transform.root.Find("Torso").GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                 }
                 else if (other.transform.tag == "Billy")
                 {
@@ -68,8 +69,10 @@ public class BulletSystem : MonoBehaviour
                 }
                 else if (other.transform.root.GetComponentInChildren<PlayerController>())
                 {
-                    PlayerController controller = other.transform.root.GetComponentInChildren<PlayerController>();
-                    controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
+                    //HEY! JUST A REMINDER
+                    //OPTIMIZE THIS I THINK IDK THO
+                    //MEBBE ITS GOOD
+                    other.transform.root.Find("Torso").GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                 }
                 else
                 {
@@ -84,6 +87,7 @@ public class BulletSystem : MonoBehaviour
 
             }
             
+
         }
     }
 }

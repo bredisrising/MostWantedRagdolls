@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class DefaultEnemyController : MonoBehaviour
 {
-    public Transform ObjToFollow;
+    public static Transform ObjToFollow;
     public Transform hips;
     public Transform homesParent;
     public Transform polesParent;
@@ -52,6 +52,12 @@ public class DefaultEnemyController : MonoBehaviour
     
     private void Start()
     {
+
+        if(ObjToFollow is null)
+        {
+            ObjToFollow = GameObject.FindGameObjectWithTag("PlayerHips").transform;
+        }
+
         jds = new JointDrive[cjs.Length];
 
         inAirDrive.maximumForce = Mathf.Infinity;
@@ -187,7 +193,6 @@ public class DefaultEnemyController : MonoBehaviour
             if (navMeshAgent.CalculatePath(ObjToFollow.position, path))
             {
                 navMeshAgent.path = path;
-                Debug.Log(path.status);
             }
 
         }

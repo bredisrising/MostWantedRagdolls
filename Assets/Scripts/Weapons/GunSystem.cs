@@ -93,7 +93,7 @@ public class GunSystem : MonoBehaviour
         }
         else
         {
-            target = enemyAutoAim.aimAt;
+            target = EnemyAutoAim.aimAt;
         }
 
         GameObject bullet = Instantiate(projectile, spawnPoint.position, Quaternion.LookRotation((target.position) - transform.position));

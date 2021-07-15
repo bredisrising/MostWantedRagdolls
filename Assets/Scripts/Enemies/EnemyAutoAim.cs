@@ -10,7 +10,7 @@ public class EnemyAutoAim : MonoBehaviour
     public Transform currentGunHeld;
 
     public bool canAim = true;
-    public Transform aimAt;
+    public static Transform aimAt;
     public Transform hips;
 
     public LayerMask groundMask;
@@ -18,7 +18,6 @@ public class EnemyAutoAim : MonoBehaviour
     public float rotationForce;
     public float drag;
 
-    bool canSeePlayer;
     Rigidbody rb;
 
     GunSystem currentGunSystem;
@@ -26,6 +25,11 @@ public class EnemyAutoAim : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(aimAt is null)
+        {
+            aimAt = GameObject.FindGameObjectWithTag("PlayerTorso").transform;
+        }
+
         weapons = Resources.LoadAll<GameObject>("Prefabs/Weapons");
 
         rb = GetComponent<Rigidbody>();

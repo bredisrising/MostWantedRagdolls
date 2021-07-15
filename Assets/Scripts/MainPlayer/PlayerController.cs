@@ -136,20 +136,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 move = new Vector3(horizontal, 0f, vertical);
         move = cam.TransformDirection(move);
-        //move = new Vector3(move.x, 0, move.z).normalized * speed;
-        //move = new Vector3(move.x, hipsRb.velocity.y, move.z);
-
-        /*if (new Vector3(move.x, 0, move.z).magnitude > 0.01)
-        {
-            hipsRb.velocity = move;
-            torsoCj.targetRotation = Quaternion.Euler(-5, 0, 0);
-            playerRotation = new Vector3(move.x, 0f, move.z);
-        }
-        else
-        {
-            torsoCj.targetRotation = Quaternion.identity;
-            hipsRb.velocity = move;
-        }*/
 
         Vector3 targetVelocity = new Vector3(move.x, 0, move.z);
         targetVelocity *= speed;
@@ -175,11 +161,6 @@ public class PlayerController : MonoBehaviour
         {
             hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
-
-        //Debug.Log(targetVelocity.magnitude);
-        /*if (playerRotation != Vector3.zero)
-            hips.rotation = Quaternion.LookRotation(playerRotation);*/
-
 
     }
 

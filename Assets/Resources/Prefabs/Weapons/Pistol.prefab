@@ -247,7 +247,7 @@ MonoBehaviour:
   autoAim: {fileID: 0}
   enemyAutoAim: {fileID: 0}
   recoil: 10
-  hitForce: 25
+  hitForce: 20
   bloom: 0
   ammoCount: 16
   fireRate: 1

@@ -68,8 +68,6 @@ public class AutoAim : MonoBehaviour
             rb.angularDrag = drag;
             Vector3 targetDelta = aimTarget - transform.position;
 
-            float angleDiff = Vector3.Angle(transform.forward, targetDelta);
-
             Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
 
 

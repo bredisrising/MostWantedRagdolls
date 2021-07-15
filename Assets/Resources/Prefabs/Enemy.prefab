@@ -2617,13 +2617,14 @@ MonoBehaviour:
   enemyAutoAim: {fileID: 0}
   recoil: 0
   hitForce: 10
-  jumpForce: 3
   bloom: 0
+  ammoCount: 0
   fireRate: 0
-  projectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
   projectileSpeed: 0
-  spawnOffset: 1
+  reloadSpeed: 0
+  projectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
   spawnPoint: {fileID: 924208671}
+  currentAmmo: 0
   isEquipped: 0
   hasEnemyEquipped: 0
   canShoot: 0
@@ -3162,7 +3163,6 @@ MonoBehaviour:
   hand: {fileID: 7425643817744124248}
   currentGunHeld: {fileID: 0}
   canAim: 1
-  aimAt: {fileID: 0}
   hips: {fileID: 6296241816731130795}
   groundMask:
     serializedVersion: 2
@@ -3777,6 +3777,7 @@ GameObject:
   - component: {fileID: 8067450774708701678}
   - component: {fileID: 8067450774708701683}
   - component: {fileID: 53590947}
+  - component: {fileID: 968083878915742054}
   m_Layer: 9
   m_Name: Hips
   m_TagString: Enemy
@@ -3826,7 +3827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8a4ac024c083e47b2244d780b8aaf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjToFollow: {fileID: 0}
   hips: {fileID: 6296241816731130795}
   homesParent: {fileID: 7313865298000635088}
   polesParent: {fileID: 7313865296208387509}
@@ -3841,7 +3841,7 @@ MonoBehaviour:
   airSpring: 2.5
   rotationForce: 15
   rotationBalanceForce: 25
-  force: 75
+  balanceForce: 75
   isDead: 0
   cjs:
   - {fileID: 8067450774708701683}
@@ -3976,6 +3976,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &968083878915742054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8067450774708701681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b119e9738d54a304a87df1828098a0ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8201466312875913971
 GameObject:
   m_ObjectHideFlags: 0

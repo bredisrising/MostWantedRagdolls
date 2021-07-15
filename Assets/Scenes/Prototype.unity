@@ -1583,7 +1583,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 75
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1608,7 +1608,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.36089918, y: -0.000000007501673, z: 0.0000000029029947, w: 0.93260485}
+  m_LocalRotation: {x: 0.36089915, y: -0.000000016041442, z: 0.0000000062077135, w: 0.93260485}
   m_LocalPosition: {x: -1.562, y: 7.5817447, z: 5.4399996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1999,7 +1999,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346165068}
-  m_LocalRotation: {x: 0.000000029802322, y: 0.000000009300028, z: -0.000000008465597, w: 1}
+  m_LocalRotation: {x: -0, y: -4.1911363e-11, z: 3.8149928e-11, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2374,10 +2374,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4380459330465347388, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
-      propertyPath: aimAt
-      value: 
-      objectReference: {fileID: 7110055417594351307}
     - target: {fileID: 7135307056105056486, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -2425,14 +2421,6 @@ PrefabInstance:
     - target: {fileID: 7516054066607862364, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8067450774708701678, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
-      propertyPath: ObjToFollow
-      value: 
-      objectReference: {fileID: 4527706248680853617}
-    - target: {fileID: 8067450774708701678, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
-      propertyPath: balanceForce
-      value: 75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
@@ -3393,9 +3381,10 @@ GameObject:
   - component: {fileID: 450445683451626028}
   - component: {fileID: 450445683451626024}
   - component: {fileID: 450445683451626025}
+  - component: {fileID: 450445683451626029}
   m_Layer: 12
   m_Name: Hips
-  m_TagString: Untagged
+  m_TagString: PlayerHips
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3444,6 +3433,18 @@ MonoBehaviour:
   - {fileID: 1757648924447177007}
   - {fileID: 450445683451626025}
   airSpring: 2.5
+--- !u!114 &450445683451626029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450445683451626027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b119e9738d54a304a87df1828098a0ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &480691068878322548
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7108,7 +7109,7 @@ GameObject:
   - component: {fileID: 8587813882883312747}
   m_Layer: 12
   m_Name: Torso
-  m_TagString: Untagged
+  m_TagString: PlayerTorso
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
