@@ -21,7 +21,6 @@ public class BillyController : MonoBehaviour
     ProceduralAnimation leftAnim;
     ProceduralAnimation rightAnim;
 
-    ConfigurableJoint hipsCj;
     Rigidbody hipsRb;
 
     LayerMask groundMask;
@@ -44,10 +43,6 @@ public class BillyController : MonoBehaviour
 
     private void Start()
     {
-
-        Application.targetFrameRate = 60;
-        QualitySettings.vSyncCount = 0;
-
         jds = new JointDrive[cjs.Length];
 
         inAirDrive.maximumForce = Mathf.Infinity;
@@ -55,7 +50,6 @@ public class BillyController : MonoBehaviour
 
 
         hipsRb = GetComponent<Rigidbody>();
-        hipsCj = GetComponent<ConfigurableJoint>();
 
         leftIK = leftFoot.gameObject.GetComponent<InverseKinematics>();
         rightIK = rightFoot.gameObject.GetComponent<InverseKinematics>();
@@ -193,8 +187,8 @@ public class BillyController : MonoBehaviour
             cj.angularYZDrive = inAirDrive;
         }
 
-        hipsCj.angularYZDrive = inAirDrive;
-        hipsCj.angularXDrive = inAirDrive;
+        //hipsCj.angularYZDrive = inAirDrive;
+        //hipsCj.angularXDrive = inAirDrive;
 
         
     }
