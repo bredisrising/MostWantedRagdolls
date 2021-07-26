@@ -4819,7 +4819,7 @@ GameObject:
   - component: {fileID: -474402696832878615}
   - component: {fileID: -794086338379624802}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: PlayerDefaultBullet
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

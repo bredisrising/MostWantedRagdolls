@@ -44,8 +44,10 @@ public class BulletSystem : MonoBehaviour
 
         if(other.transform.root != whoSpawnedMe && other.transform.tag != "Projectile")
         {
+
+            //Debug.Log(other.transform.root.name);
             thisCollider.enabled = false;
-            Destroy(gameObject);
+            
             if(other.attachedRigidbody != null)
             {
                 if (other.transform.tag == "Enemy")
@@ -83,10 +85,12 @@ public class BulletSystem : MonoBehaviour
 
                 }
 
-              
+                Destroy(gameObject);
 
             }
+
             
+
 
         }
     }

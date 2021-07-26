@@ -223,7 +223,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747226653435358570}
-  m_LocalRotation: {x: 0.072841436, y: 0.019552667, z: -0.116453886, w: 0.9903285}
+  m_LocalRotation: {x: 0.072841436, y: 0.019552665, z: -0.116453886, w: 0.9903284}
   m_LocalPosition: {x: -2.13, y: 1.52, z: 12.74}
   m_LocalScale: {x: 0.5999999, y: 0.5999998, z: 0.60000086}
   m_Children:
@@ -251,9 +251,10 @@ MonoBehaviour:
   bloom: 0
   ammoCount: 16
   fireRate: 1
-  projectileSpeed: 11
+  projectileSpeed: 15
   reloadSpeed: 1
-  projectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
+  playerProjectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
+  enemyProjectile: {fileID: 8166942445802032782, guid: f9143a1832c93cc4d88ad7ac1ac1f2f0, type: 3}
   spawnPoint: {fileID: 1747226653467474806}
   currentAmmo: 0
   isEquipped: 0

@@ -163,6 +163,7 @@ public class DefaultEnemyController : MonoBehaviour
         }
         else
         {
+            
             Vector3 targetVelocity = new Vector3(0, hipsRb.velocity.y, 0);
             Vector3 velocity = hipsRb.velocity;
             Vector3 velocityChange = targetVelocity - velocity;
@@ -171,7 +172,7 @@ public class DefaultEnemyController : MonoBehaviour
             velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
             velocityChange.y = 0;
             hipsRb.AddForce(velocityChange, ForceMode.VelocityChange);
-
+            torsoRb.AddForce(velocityChange, ForceMode.VelocityChange);
 
             float rootAngle = transform.eulerAngles.y;
             float desiredAngle = Quaternion.LookRotation(ObjToFollow.position - transform.position).eulerAngles.y;
@@ -212,22 +213,24 @@ public class DefaultEnemyController : MonoBehaviour
         if (Physics.Raycast(leftFoot.position, Vector3.down, out hit, feetGroundCheckDist, groundMask))
         {
             leftCheck = true;
-            Debug.DrawLine(leftFoot.position, Vector3.down * feetGroundCheckDist, Color.red);
+            Debug.DrawLine(leftFoot.position, leftFoot.position + Vector3.down * feetGroundCheckDist, Color.yellow);
         }
         if (Physics.Raycast(rightFoot.position, Vector3.down, out hit, feetGroundCheckDist, groundMask))
         {
             rightCheck = true;
-            Debug.DrawLine(rightFoot.position, Vector3.down * feetGroundCheckDist, Color.red);
+            Debug.DrawLine(rightFoot.position, rightFoot.position + Vector3.down * feetGroundCheckDist, Color.yellow);
         }
             
 
         if ((rightCheck || leftCheck) && !isGrounded)
         {
             StartCoroutine(DelayBeforeStand(3));
+            Debug.Log("STANDING!");
         }
         else if((!rightCheck && !leftCheck) && isGrounded)
         {
             Die(false);
+            Debug.Log("DIED");
         }
             
         

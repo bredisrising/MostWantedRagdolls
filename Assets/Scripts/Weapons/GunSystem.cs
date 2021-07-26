@@ -18,7 +18,9 @@ public class GunSystem : MonoBehaviour
     public float projectileSpeed;
     public float reloadSpeed;
 
-    public GameObject projectile;
+    public GameObject playerProjectile;
+    public GameObject enemyProjectile;
+
     public Transform spawnPoint;
     Transform target;
 
@@ -85,19 +87,21 @@ public class GunSystem : MonoBehaviour
     {
 
         if (!isEnemy)
-            upperArm.AddForce(-upperArm.transform.forward * recoil, ForceMode.Impulse);
-
-        if (!isEnemy)
         {
             target = autoAim.target.transform;
+            upperArm.AddForce(-upperArm.transform.forward * recoil, ForceMode.Impulse);
+
+            GameObject bullet = Instantiate(playerProjectile, spawnPoint.position, Quaternion.LookRotation((target.position) - transform.position));
+            bullet.GetComponent<BulletSystem>().Setup(projectileSpeed, bullet.transform.forward, hitForce, transform.root);
         }
         else
         {
             target = EnemyAutoAim.aimAt;
+            GameObject bullet = Instantiate(enemyProjectile, spawnPoint.position, Quaternion.LookRotation((target.position) - transform.position));
+            bullet.GetComponent<BulletSystem>().Setup(projectileSpeed, bullet.transform.forward, hitForce, transform.root);
         }
 
-        GameObject bullet = Instantiate(projectile, spawnPoint.position, Quaternion.LookRotation((target.position) - transform.position));
-        bullet.GetComponent<BulletSystem>().Setup(projectileSpeed, bullet.transform.forward, hitForce, transform.root);
+        
     }
 
 }
