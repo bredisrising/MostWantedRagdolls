@@ -252,6 +252,7 @@ MonoBehaviour:
   ammoCount: 16
   fireRate: 1
   projectileSpeed: 15
+  playerProjectileSpeedMultiplier: 2
   reloadSpeed: 1
   playerProjectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
   enemyProjectile: {fileID: 8166942445802032782, guid: f9143a1832c93cc4d88ad7ac1ac1f2f0, type: 3}

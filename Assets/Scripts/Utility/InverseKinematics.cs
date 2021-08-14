@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class InverseKinematics : MonoBehaviour
 {
@@ -44,12 +43,6 @@ public class InverseKinematics : MonoBehaviour
         bonesLength = new float[chainLength];
         startDirectionSucc = new Vector3[chainLength + 1];
         startRotationBone = new Quaternion[chainLength + 1];
-
-        /*if(target == null)
-        {
-            target = new GameObject(gameObject.name + " Target").transform;
-            target.position = transform.position;
-        }*/
 
         startRotationTarget = target.rotation;
        
@@ -160,17 +153,4 @@ public class InverseKinematics : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
-    {
-        Transform current = this.transform;
-        for(int i = 0; i < chainLength && current != null && current.parent != null; i++)
-        {
-            var scale = Vector3.Distance(current.position, current.parent.position) * 0.1f;
-            Handles.matrix = Matrix4x4.TRS(current.position, Quaternion.FromToRotation(Vector3.up, current.parent.position - current.position), new Vector3(scale, Vector3.Distance(current.parent.position, current.position), scale));
-            Handles.color = Color.green;
-            Handles.DrawWireCube(Vector3.up * 0.5f, Vector3.one);
-            current = current.parent;
-        }
-
-    }
 }

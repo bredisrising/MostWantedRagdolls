@@ -452,11 +452,12 @@ MonoBehaviour:
   autoAim: {fileID: 0}
   enemyAutoAim: {fileID: 0}
   recoil: 4
-  hitForce: 4
+  hitForce: 5
   bloom: 0
   ammoCount: 30
   fireRate: 3.5
   projectileSpeed: 10
+  playerProjectileSpeedMultiplier: 1.5
   reloadSpeed: 2
   playerProjectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
   enemyProjectile: {fileID: 8166942445802032782, guid: f9143a1832c93cc4d88ad7ac1ac1f2f0, type: 3}

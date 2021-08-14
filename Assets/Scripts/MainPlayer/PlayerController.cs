@@ -5,17 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public Transform hips;
-    public Transform cam;
-    public Transform homesParent;
-    public Transform polesParent;
+    [SerializeField] Transform hips;
+    [SerializeField] Transform cam;
+    [SerializeField] Transform homesParent;
+    [SerializeField] Transform polesParent;
 
-    public ConfigurableJoint torsoCj;
+    [SerializeField] Transform leftFoot;
+    [SerializeField] Transform rightFoot;
 
-    public Transform leftFoot;
-    public Transform rightFoot;
-
-    public float feetGroundCheckDist;
+    [SerializeField] float feetGroundCheckDist;
 
     InverseKinematics leftIK;
     InverseKinematics rightIK;
@@ -25,18 +23,21 @@ public class PlayerController : MonoBehaviour
     ConfigurableJoint hipsCj;
     Rigidbody hipsRb;
 
-    public Rigidbody headRb;
+    [SerializeField] Rigidbody headRb;
 
     LayerMask groundMask;
 
-    public float speed;
-    public float maxVelocityChange;
-    public float rotationForce;
-    public float balanceForce;
-    public float jumpForce;
+    [SerializeField] float speed;
+    [SerializeField] float maxVelocityChange;
+    [SerializeField] float rotationForce;
+    [SerializeField] float balanceForce;
+    [SerializeField] float jumpForce;
+    [SerializeField] float impactForceThreshold;
 
-    public bool isGrounded;
-    public bool alternateLegs;
+    [SerializeField] bool isGrounded;
+    [SerializeField] bool isDead = false;
+    [SerializeField] bool isStunned = false;
+    [SerializeField] bool alternateLegs;
 
     float horizontal, vertical;
 
@@ -86,27 +87,29 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        GroundHomeParent();
-        CheckGrounded();
-        SetPlayerInputs();
-
-        if (isGrounded)
+        if (!isDead)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-                Jump();
+            GroundHomeParent();
+            CheckGrounded();
+            SetPlayerInputs();
+
+            if (isGrounded)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                    Jump();
+            }
         }
+
     }
 
 
     private void FixedUpdate()
     {
-        if (isGrounded)
+        if (isGrounded && !isDead)
         {
             StabilizeBody();
             Move();
-        }
-
-        
+        }    
     }
 
     void GroundHomeParent()
@@ -182,14 +185,14 @@ public class PlayerController : MonoBehaviour
         }
         else if((!rightCheck && !leftCheck) && isGrounded)
         {
-            Die();
+            Die(true);
         }
             
         
 
     }
 
-    void Die()
+    public void Die(bool respawn)
     {
         foreach (ConfigurableJoint cj in cjs)
         {
@@ -203,6 +206,10 @@ public class PlayerController : MonoBehaviour
         rightIK.enabled = false;
         leftIK.enabled = false;
         isGrounded = false;
+
+        if (!respawn)
+            isDead = true;
+
     }
     void SetDrives()
     {
@@ -217,11 +224,11 @@ public class PlayerController : MonoBehaviour
         leftIK.enabled = true;
         isGrounded = true;
     }
-    public void Jump()
+    void Jump()
     {
         
         hipsRb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-        hipsRb.AddTorque(new Vector3(10, 0 , 0));
+        hipsRb.AddTorque(new Vector3(100, 0 , 0));
         
         
     }

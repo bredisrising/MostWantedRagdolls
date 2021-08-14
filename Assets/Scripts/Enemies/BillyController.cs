@@ -39,6 +39,8 @@ public class BillyController : MonoBehaviour
 
     public float airSpring;
     public float cfForce;
+    public float rotationForce;
+    public float rotationBalanceForce;
 
 
     private void Start()
@@ -85,6 +87,7 @@ public class BillyController : MonoBehaviour
 
         if (isGrounded)
         {
+            StabilizeBody();
             Move();
         }
     }
@@ -98,7 +101,12 @@ public class BillyController : MonoBehaviour
         polesParent.eulerAngles = new Vector3(polesParent.eulerAngles.x, hips.eulerAngles.y, polesParent.eulerAngles.z);
     }
 
-
+    void StabilizeBody()
+    {
+        hipsRb.AddTorque(-hipsRb.angularVelocity * rotationBalanceForce, ForceMode.Acceleration);
+        var rot = Quaternion.FromToRotation(-transform.right, Vector3.right);
+        hipsRb.AddTorque(new Vector3(rot.x, rot.y, rot.z) * rotationBalanceForce, ForceMode.Acceleration);
+    }
     void Move ()
     { 
         if(Vector3.Distance(transform.position, followObj.position) > 1.5)
@@ -106,28 +114,26 @@ public class BillyController : MonoBehaviour
             Vector3 move = (followObj.position - transform.position).normalized;
 
             hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
-            
 
-            Vector3 targetDelta = followObj.position - transform.position;
 
-            float angleDiff = Vector3.Angle(transform.forward, targetDelta);
+            float rootAngle = transform.eulerAngles.y;
+            float desiredAngle = Quaternion.LookRotation(followObj.position - transform.position).eulerAngles.y;
 
-            Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
+            float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
 
-            hipsRb.AddTorque(cross * angleDiff * .1f);
+            hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
         else
         {
             
             hipsRb.velocity = new Vector3(0, hipsRb.velocity.y, 0);
 
-            Vector3 targetDelta = followObj.position - transform.position;
+            float rootAngle = transform.eulerAngles.y;
+            float desiredAngle = Quaternion.LookRotation(followObj.position - transform.position).eulerAngles.y;
 
-            float angleDiff = Vector3.Angle(transform.forward, targetDelta);
+            float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
 
-            Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
-
-            hipsRb.AddTorque(cross * angleDiff * .1f);
+            hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
         
         
@@ -149,16 +155,16 @@ public class BillyController : MonoBehaviour
             {
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDist, groundMask) && !doPushUp)
                 {
-                    hipsRb.AddForce(new Vector3(0, cfForce, 0));
+                    hipsRb.AddForce(new Vector3(0, cfForce, 0), ForceMode.Acceleration);
                     doPushUp = true;
                 }else if(Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDist + addedOtherCheckDist, groundMask) && doPushUp)
                 {
-                    hipsRb.AddForce(new Vector3(0, cfForce, 0));
+                    hipsRb.AddForce(new Vector3(0, cfForce, 0), ForceMode.Acceleration);
                 }
                 else
                 {
                     doPushUp = false;
-                    hipsRb.AddForce(new Vector3(0, 15, 0));
+                    hipsRb.AddForce(new Vector3(0, 25, 0));
                 }
             }
 
@@ -214,6 +220,7 @@ public class BillyController : MonoBehaviour
             {
                 leftAnim.TryMove();
                 yield return null;
+
             } while (leftAnim.moving);
 
             do
