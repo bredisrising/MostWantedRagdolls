@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4839734, g: 0.5757087, b: 0.6801929, a: 1}
+  m_IndirectSpecularColor: {r: 0.48398054, g: 0.5756295, b: 0.6801194, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -779,7 +779,7 @@ MonoBehaviour:
   m_MaxDollyOut: 5000
   m_MinimumDistance: 1
   m_MaximumDistance: 5000
-  m_MinimumFOV: 68
+  m_MinimumFOV: 48
   m_MaximumFOV: 152
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 5000
@@ -1585,7 +1585,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 68
+  field of view: 48
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1610,7 +1610,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.36089915, y: -0.000000016052724, z: 0.0000000062120793, w: 0.93260485}
+  m_LocalRotation: {x: 0.36089915, y: -0.00000001605863, z: 0.000000006214364, w: 0.93260485}
   m_LocalPosition: {x: -1.562, y: 7.5817447, z: 5.4399996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1973,7 +1973,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346165068}
-  m_LocalRotation: {x: -0, y: 4.6807003e-12, z: -4.260592e-12, w: 1}
+  m_LocalRotation: {x: -0, y: -9.121592e-12, z: 8.305356e-12, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2010,7 +2010,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.7780548, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -2348,6 +2348,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2205375628208097201, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205375628208097201, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
+      propertyPath: m_AngularYZDrive.positionSpring
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 7135307056105056486, guid: 7332680602cd3c54397f647dee121ea4, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -5258,9 +5266,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 879622453699846755}
     - target: {fileID: 1747226653435358572, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
+      propertyPath: fireRate
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1747226653435358572, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
       propertyPath: upperArm
       value: 
       objectReference: {fileID: 879622453699846783}
+    - target: {fileID: 1747226653435358572, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
+      propertyPath: ammoCount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1747226653435358572, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
+      propertyPath: playerProjectileSpeedMultiplier
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1747226653435358573, guid: 0584c747039d90e4ba0b1764c95e9f98, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -6104,6 +6124,10 @@ PrefabInstance:
       propertyPath: upperArm
       value: 
       objectReference: {fileID: 879622453699846783}
+    - target: {fileID: 3200936025395943789, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
+      propertyPath: playerProjectileSpeedMultiplier
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bf8c964cb3f3c145b7ff995e7b0aec0, type: 3}
 --- !u!1 &4417992878183046785

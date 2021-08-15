@@ -10,6 +10,7 @@ public class BulletSystem : MonoBehaviour
     Vector3 bulletDirection;
 
     Collider thisCollider;
+    Rigidbody rb;
 
     bool isDead;
 
@@ -18,6 +19,7 @@ public class BulletSystem : MonoBehaviour
     private void Start()
     {
         thisCollider = GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>();
     }
 
     public void Setup(float bulletSpeed, Vector3 bulletDirection, float hitForce, Transform whoSpawnedMe)
@@ -28,11 +30,11 @@ public class BulletSystem : MonoBehaviour
         this.whoSpawnedMe = whoSpawnedMe;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!isDead)
         {
-            transform.position += bulletDirection * bulletSpeed * Time.deltaTime;
+            rb.MovePosition(transform.position + bulletDirection * bulletSpeed * Time.deltaTime);
         }
     }
 
