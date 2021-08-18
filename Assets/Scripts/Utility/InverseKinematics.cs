@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class InverseKinematics : MonoBehaviour
 {
-    public bool isLeg;
+    [SerializeField] bool isLeg;
 
-    public int chainLength = 2;
+    [SerializeField] int chainLength = 2;
 
-    public Transform hips;
-    public Transform target;
-    public Transform pole;
+    [SerializeField] Transform hips;
+    [SerializeField] Transform target;
+    [SerializeField] Transform pole;
 
     [Header("Solver Parameters")]
-    public int iterations = 10;
-
-    public Vector3 bruhRotation;
-
-    public float delta = 0.001f;
+    [SerializeField] int iterations = 10;
+    [SerializeField] float delta = 0.001f;
 
     [Range(0, 1)]
     public float snapBackStrength;
@@ -142,15 +139,8 @@ public class InverseKinematics : MonoBehaviour
                 {
                     bones[i].RotateAround(bones[i].position, bones[i].up, -hips.localEulerAngles.y);
                 }
-                
-            }
-                
+            } 
             bones[i].position = positions[i];
         }
-            
-
-        
-
     }
-
 }

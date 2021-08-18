@@ -261,7 +261,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 21f207aefacec524a95f525efe6cf304, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -302,7 +302,7 @@ MonoBehaviour:
   leftFoot: {fileID: 6059342740027858437}
   rightFoot: {fileID: 3985110105966840441}
   higherGroundCheckDist: 1
-  addedOtherCheckDist: 0.3
+  addedOtherCheckDist: 0.1
   groundCheckDist: 0.3
   speed: 0.45
   impactForceThreshold: 7
@@ -313,8 +313,9 @@ MonoBehaviour:
   - {fileID: 8756137983242139764}
   - {fileID: 3985110107955966903}
   - {fileID: 3985110108017910383}
-  airSpring: 0
-  cfForce: 40
+  cfForce: 45
+  rotationForce: 25
+  rotationBalanceForce: 7.8
 --- !u!65 &3985110106014880988
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -338,7 +339,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 15
+  m_AngularDrag: 0.15
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1286,7 +1287,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3985110107840290707
 Transform:
   m_ObjectHideFlags: 0

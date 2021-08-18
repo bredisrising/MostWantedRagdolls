@@ -4,49 +4,40 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    [SerializeField] Transform hips;
     [SerializeField] Transform cam;
-    [SerializeField] Transform homesParent;
-    [SerializeField] Transform polesParent;
 
     [SerializeField] Transform leftFoot;
     [SerializeField] Transform rightFoot;
 
-    [SerializeField] float feetGroundCheckDist;
+    [SerializeField] ProceduralLegsController proceduralLegs;
 
-    InverseKinematics leftIK;
-    InverseKinematics rightIK;
-    ProceduralAnimation leftAnim;
-    ProceduralAnimation rightAnim;
+    [SerializeField] Rigidbody headRb;
+
+    [SerializeField] float feetGroundCheckDist;
 
     ConfigurableJoint hipsCj;
     Rigidbody hipsRb;
 
-    [SerializeField] Rigidbody headRb;
-
     LayerMask groundMask;
 
-    [SerializeField] float speed;
-    [SerializeField] float maxVelocityChange;
+    [SerializeField] float moveSpeed;
     [SerializeField] float rotationForce;
     [SerializeField] float balanceForce;
     [SerializeField] float jumpForce;
-    [SerializeField] float impactForceThreshold;
+    
+    [SerializeField] float maxVelocityChange;
 
-    [SerializeField] bool isGrounded;
-    [SerializeField] bool isDead = false;
-    [SerializeField] bool isStunned = false;
-    [SerializeField] bool alternateLegs;
+    bool isGrounded;
+    bool isDead = false;
 
     float horizontal, vertical;
 
-    public ConfigurableJoint[] cjs;
+    [SerializeField] ConfigurableJoint[] cjs;
     JointDrive[] jds;
     JointDrive inAirDrive;
     JointDrive hipsInAirDrive;
 
-    public float airSpring;
+    [SerializeField] float airSpring;
     private void Start()
     {
         jds = new JointDrive[cjs.Length];
@@ -60,12 +51,6 @@ public class PlayerController : MonoBehaviour
         hipsRb = GetComponent<Rigidbody>();
         hipsCj = GetComponent<ConfigurableJoint>();
 
-
-        leftIK = leftFoot.gameObject.GetComponent<InverseKinematics>();
-        rightIK = rightFoot.gameObject.GetComponent<InverseKinematics>();
-        leftAnim = leftFoot.gameObject.GetComponent<ProceduralAnimation>();
-        rightAnim = rightFoot.gameObject.GetComponent<ProceduralAnimation>();
-
         //Saves the initial drives of each configurable joint
         for(int i = 0; i < cjs.Length; i++)
         {
@@ -73,23 +58,13 @@ public class PlayerController : MonoBehaviour
         }
 
         groundMask = LayerMask.GetMask("Ground");
-
-
-        if (!alternateLegs)
-        {
-            StartCoroutine(LegUpdate());
-        }
-        else
-        {
-            StartCoroutine(AlternatingLegUpdate());
-        }
         
     }
     void Update()
     {
         if (!isDead)
         {
-            GroundHomeParent();
+            proceduralLegs.GroundHomeParent();
             CheckGrounded();
             SetPlayerInputs();
 
@@ -99,11 +74,8 @@ public class PlayerController : MonoBehaviour
                     Jump();
             }
         }
-
     }
-
-
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (isGrounded && !isDead)
         {
@@ -112,21 +84,10 @@ public class PlayerController : MonoBehaviour
         }    
     }
 
-    void GroundHomeParent()
-    {
-        homesParent.position = new Vector3(hips.position.x, transform.position.y, hips.position.z);
-        homesParent.eulerAngles = new Vector3(homesParent.eulerAngles.x, hips.eulerAngles.y, homesParent.eulerAngles.z);
-
-        polesParent.position = new Vector3(hips.position.x, transform.position.y, hips.position.z);
-        polesParent.eulerAngles = new Vector3(polesParent.eulerAngles.x, hips.eulerAngles.y, polesParent.eulerAngles.z);
-    }
-
     void SetPlayerInputs()
     {
-        
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-       
     }
 
     void StabilizeBody()
@@ -141,7 +102,7 @@ public class PlayerController : MonoBehaviour
         move = cam.TransformDirection(move);
 
         Vector3 targetVelocity = new Vector3(move.x, 0, move.z);
-        targetVelocity *= speed;
+        targetVelocity *= moveSpeed;
 
         Vector3 velocity = hipsRb.velocity;
         Vector3 velocityChange = (targetVelocity - velocity);
@@ -164,7 +125,6 @@ public class PlayerController : MonoBehaviour
         {
             hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
-
     }
 
     void CheckGrounded()
@@ -187,9 +147,6 @@ public class PlayerController : MonoBehaviour
         {
             Die(true);
         }
-            
-        
-
     }
 
     public void Die(bool respawn)
@@ -203,8 +160,7 @@ public class PlayerController : MonoBehaviour
         hipsCj.angularYZDrive = hipsInAirDrive;
         hipsCj.angularXDrive = hipsInAirDrive;
 
-        rightIK.enabled = false;
-        leftIK.enabled = false;
+        proceduralLegs.DisableIk();
         isGrounded = false;
 
         if (!respawn)
@@ -220,49 +176,13 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        rightIK.enabled = true;
-        leftIK.enabled = true;
+        proceduralLegs.EnableIk();
         isGrounded = true;
     }
     void Jump()
     {
-        
         hipsRb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-        hipsRb.AddTorque(new Vector3(100, 0 , 0));
-        
-        
-    }
-
-    IEnumerator AlternatingLegUpdate()
-    {
-        while (true)
-        {
-            do
-            {
-                leftAnim.TryMove();
-                yield return null;
-            } while (leftAnim.moving);
-
-            do
-            {
-                rightAnim.TryMove();
-                yield return null;
-
-            } while (rightAnim.moving);
-        }
-    }
-
-    IEnumerator LegUpdate()
-    {
-        while (true)
-        {
-            do
-            {
-                leftAnim.TryMove();
-                rightAnim.TryMove();
-                yield return null;
-            } while (leftAnim.moving && rightAnim.moving);
-        }
+        hipsRb.AddTorque(new Vector3(750, 0));
     }
 }
 

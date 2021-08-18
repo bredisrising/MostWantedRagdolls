@@ -4,43 +4,32 @@ using UnityEngine;
 
 public class BillyController : MonoBehaviour
 {
-    public Transform followObj;
-    public Transform hips;
-    public Transform homesParent;
-    public Transform polesParent;
+    [SerializeField] Transform followObj;
 
-    public Transform leftFoot;
-    public Transform rightFoot;
+    [SerializeField] ProceduralLegsController proceduralLegs;
 
-    public float higherGroundCheckDist;
-    public float addedOtherCheckDist;
-    public float groundCheckDist;
-
-    InverseKinematics leftIK;
-    InverseKinematics rightIK;
-    ProceduralAnimation leftAnim;
-    ProceduralAnimation rightAnim;
+    [SerializeField] float higherGroundCheckDist;
+    [SerializeField] float addedOtherCheckDist;
+    [SerializeField] float groundCheckDist;
 
     Rigidbody hipsRb;
 
     LayerMask groundMask;
 
-    public float speed;
-    public float impactForceThreshold;
+    [SerializeField] float speed;
+    [SerializeField] float impactForceThreshold;
 
-    public bool isGrounded = false;
+    [HideInInspector] public bool isGrounded = false;
     bool isStandingUp = false;
     bool doPushUp = false;
-    public bool alternateLegs;
 
-    public ConfigurableJoint[] cjs;
+    [SerializeField] ConfigurableJoint[] cjs;
     JointDrive[] jds;
     JointDrive inAirDrive;
 
-    public float airSpring;
-    public float cfForce;
-    public float rotationForce;
-    public float rotationBalanceForce;
+    [SerializeField] float cfForce;
+    [SerializeField] float rotationForce;
+    [SerializeField] float rotationBalanceForce;
 
 
     private void Start()
@@ -48,15 +37,9 @@ public class BillyController : MonoBehaviour
         jds = new JointDrive[cjs.Length];
 
         inAirDrive.maximumForce = Mathf.Infinity;
-        inAirDrive.positionSpring = airSpring;
-
+        inAirDrive.positionSpring = 0;
 
         hipsRb = GetComponent<Rigidbody>();
-
-        leftIK = leftFoot.gameObject.GetComponent<InverseKinematics>();
-        rightIK = rightFoot.gameObject.GetComponent<InverseKinematics>();
-        leftAnim = leftFoot.gameObject.GetComponent<ProceduralAnimation>();
-        rightAnim = rightFoot.gameObject.GetComponent<ProceduralAnimation>();
 
         //Saves the initial drives of each configurable joint
         for(int i = 0; i < cjs.Length; i++)
@@ -65,23 +48,13 @@ public class BillyController : MonoBehaviour
         }
 
         groundMask = LayerMask.GetMask("Ground");
-
-        if (!alternateLegs)
-        {
-            StartCoroutine(LegUpdate());
-        }
-        else
-        {
-            StartCoroutine(AlternatingLegUpdate());
-        }
-
     }
     void Update()
     {
-        GroundHomeParent();
+        proceduralLegs.GroundHomeParent();
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         CheckGrounded();
 
@@ -91,16 +64,6 @@ public class BillyController : MonoBehaviour
             Move();
         }
     }
-
-    void GroundHomeParent()
-    {
-        homesParent.position = new Vector3(hips.position.x, hips.position.y, hips.position.z);
-        homesParent.eulerAngles = new Vector3(homesParent.eulerAngles.x, hips.eulerAngles.y, homesParent.eulerAngles.z);
-
-        polesParent.position = new Vector3(hips.position.x, hips.position.y, hips.position.z);
-        polesParent.eulerAngles = new Vector3(polesParent.eulerAngles.x, hips.eulerAngles.y, polesParent.eulerAngles.z);
-    }
-
     void StabilizeBody()
     {
         hipsRb.AddTorque(-hipsRb.angularVelocity * rotationBalanceForce, ForceMode.Acceleration);
@@ -112,31 +75,22 @@ public class BillyController : MonoBehaviour
         if(Vector3.Distance(transform.position, followObj.position) > 1.5)
         {
             Vector3 move = (followObj.position - transform.position).normalized;
-
             hipsRb.velocity = new Vector3(move.x * speed, hipsRb.velocity.y, move.z * speed);
-
 
             float rootAngle = transform.eulerAngles.y;
             float desiredAngle = Quaternion.LookRotation(followObj.position - transform.position).eulerAngles.y;
-
             float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
-
             hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
         else
         {
-            
             hipsRb.velocity = new Vector3(0, hipsRb.velocity.y, 0);
 
             float rootAngle = transform.eulerAngles.y;
             float desiredAngle = Quaternion.LookRotation(followObj.position - transform.position).eulerAngles.y;
-
             float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
-
             hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
         }
-        
-        
     }
 
     void CheckGrounded()
@@ -149,7 +103,6 @@ public class BillyController : MonoBehaviour
             {
                 StartCoroutine(DelayBeforeStand(3));
             }
-            
             
             if (!isStandingUp)
             {
@@ -167,7 +120,6 @@ public class BillyController : MonoBehaviour
                     hipsRb.AddForce(new Vector3(0, 25, 0));
                 }
             }
-
         }
         else
         {
@@ -175,16 +127,12 @@ public class BillyController : MonoBehaviour
             {
                 Die();
             }
-        }
-
-        
-          
+        } 
     }
 
     public void Die()
     {
-        rightIK.enabled = false;
-        leftIK.enabled = false;
+        proceduralLegs.DisableIk();
         isGrounded = false;
 
         foreach (ConfigurableJoint cj in cjs)
@@ -192,10 +140,6 @@ public class BillyController : MonoBehaviour
             cj.angularXDrive = inAirDrive;
             cj.angularYZDrive = inAirDrive;
         }
-
-        //hipsCj.angularYZDrive = inAirDrive;
-        //hipsCj.angularXDrive = inAirDrive;
-
         
     }
     void SetDrives()
@@ -207,42 +151,8 @@ public class BillyController : MonoBehaviour
 
         }
 
-        rightIK.enabled = true;
-        leftIK.enabled = true;
+        proceduralLegs.EnableIk();
         isGrounded = true;
-    }
-
-    IEnumerator AlternatingLegUpdate()
-    {
-        while (true)
-        {
-            do
-            {
-                leftAnim.TryMove();
-                yield return null;
-
-            } while (leftAnim.moving);
-
-            do
-            {
-                rightAnim.TryMove();
-                yield return null;
-
-            } while (rightAnim.moving);
-        }
-    }
-
-    IEnumerator LegUpdate()
-    {
-        while (true)
-        {
-            do
-            {
-                leftAnim.TryMove();
-                rightAnim.TryMove();
-                yield return null;
-            } while (rightAnim.moving);
-        }
     }
 
     IEnumerator DelayBeforeStand(float delay)
@@ -252,7 +162,6 @@ public class BillyController : MonoBehaviour
 
         SetDrives();
         isStandingUp = false;
-        
     }
     private void OnCollisionEnter(Collision collision)
     {
