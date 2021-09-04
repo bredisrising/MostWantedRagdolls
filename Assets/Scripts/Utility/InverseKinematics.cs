@@ -12,12 +12,8 @@ public class InverseKinematics : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] Transform pole;
 
-    [Header("Solver Parameters")]
-    [SerializeField] int iterations = 10;
-    [SerializeField] float delta = 0.001f;
-
-    [Range(0, 1)]
-    public float snapBackStrength;
+    int iterations = 10;
+    float delta = 0.001f;
 
     protected float[] bonesLength;
     protected float completeLength;

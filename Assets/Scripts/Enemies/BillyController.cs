@@ -8,9 +8,9 @@ public class BillyController : MonoBehaviour
 
     [SerializeField] ProceduralLegsController proceduralLegs;
 
-    [SerializeField] float higherGroundCheckDist;
-    [SerializeField] float addedOtherCheckDist;
-    [SerializeField] float groundCheckDist;
+    [SerializeField] float isAliveGroundCheckDist;
+    [SerializeField] float upperGroundCheckDist;
+    [SerializeField] float lowerGroundCheckDist;
 
     Rigidbody hipsRb;
 
@@ -30,7 +30,7 @@ public class BillyController : MonoBehaviour
     [SerializeField] float cfForce;
     [SerializeField] float rotationForce;
     [SerializeField] float rotationBalanceForce;
-
+    [SerializeField] float inAirForce;
 
     private void Start()
     {
@@ -97,7 +97,7 @@ public class BillyController : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, higherGroundCheckDist, groundMask))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, isAliveGroundCheckDist, groundMask))
         {
             if (!isGrounded)
             {
@@ -106,18 +106,18 @@ public class BillyController : MonoBehaviour
             
             if (!isStandingUp)
             {
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDist, groundMask) && !doPushUp)
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, lowerGroundCheckDist, groundMask) && !doPushUp)
                 {
                     hipsRb.AddForce(new Vector3(0, cfForce, 0), ForceMode.Acceleration);
                     doPushUp = true;
-                }else if(Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDist + addedOtherCheckDist, groundMask) && doPushUp)
+                }else if(Physics.Raycast(transform.position, Vector3.down, out hit, upperGroundCheckDist, groundMask) && doPushUp)
                 {
                     hipsRb.AddForce(new Vector3(0, cfForce, 0), ForceMode.Acceleration);
                 }
                 else
                 {
                     doPushUp = false;
-                    hipsRb.AddForce(new Vector3(0, 25, 0));
+                    hipsRb.AddForce(new Vector3(0, inAirForce, 0));
                 }
             }
         }

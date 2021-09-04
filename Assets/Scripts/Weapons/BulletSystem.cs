@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BulletSystem : MonoBehaviour
 {
-
     float bulletSpeed;
     float hitForce;
     Vector3 bulletDirection;
@@ -37,12 +36,11 @@ public class BulletSystem : MonoBehaviour
             rb.MovePosition(transform.position + bulletDirection * bulletSpeed * Time.deltaTime);
         }
     }
-
-
     private void OnTriggerEnter(Collider other)
     {
-
         //U SHOULD PROBABLY OPTIMIZE THIS!!!!!!
+
+        Debug.Log(other.transform.name);
 
         if(other.transform.root != whoSpawnedMe && other.transform.tag != "Projectile")
         {
@@ -52,7 +50,7 @@ public class BulletSystem : MonoBehaviour
             
             if(other.attachedRigidbody != null)
             {
-                if (other.transform.tag == "Enemy")
+                if (other.transform.tag == "EnemyCollider")
                 { 
                     DefaultEnemyController controller = other.transform.root.GetComponentInChildren<DefaultEnemyController>();
                     if (!controller.isDead)
@@ -61,17 +59,7 @@ public class BulletSystem : MonoBehaviour
                     }
                     other.transform.root.Find("Torso").GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
                 }
-                else if (other.transform.tag == "Billy")
-                {
-                    BillyController controller = other.transform.root.GetComponentInChildren<BillyController>();
-                    if (controller.isGrounded)
-                    {
-                        controller.Die();
-                        
-                    }
-                    controller.transform.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * hitForce, ForceMode.VelocityChange);
-                }
-                else if (other.transform.root.GetComponentInChildren<PlayerController>())
+                else if (other.transform.tag == "PlayerHips")
                 {
                     //HEY! JUST A REMINDER
                     //OPTIMIZE THIS I THINK IDK THO
@@ -90,9 +78,6 @@ public class BulletSystem : MonoBehaviour
                 Destroy(gameObject);
 
             }
-
-            
-
 
         }
     }

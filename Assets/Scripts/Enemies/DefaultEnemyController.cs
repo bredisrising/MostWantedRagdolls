@@ -7,18 +7,13 @@ public class DefaultEnemyController : MonoBehaviour
 {
     public static Transform ObjToFollow;
     public Transform hips;
-    public Transform homesParent;
-    public Transform polesParent;
 
     public Transform leftFoot;
     public Transform rightFoot;
 
-    public float feetGroundCheckDist;
+    [SerializeField] ProceduralLegsController proceduralLegs;
 
-    InverseKinematics leftIK;
-    InverseKinematics rightIK;
-    ProceduralAnimation leftAnim;
-    ProceduralAnimation rightAnim;
+    public float feetGroundCheckDist;
 
     public Rigidbody torsoRb;
     public Rigidbody headRb;
@@ -34,12 +29,14 @@ public class DefaultEnemyController : MonoBehaviour
     public float maxVelocityChange;
     public float airSpring;
     public float rotationForce;
+    [SerializeField] float idleRotationForce;
     public float rotationBalanceForce;
     public float balanceForce;
 
-    bool isGrounded = true;
+    [SerializeField] bool isGrounded = true;
+    bool standing = false;
     public bool isDead;
-    bool alternateLegs = true;
+    [SerializeField] bool respawnWhenDead = true;
 
     public ConfigurableJoint[] cjs;
     JointDrive[] jds;
@@ -52,10 +49,15 @@ public class DefaultEnemyController : MonoBehaviour
     
     private void Start()
     {
-
         if(ObjToFollow is null)
         {
-            ObjToFollow = GameObject.FindGameObjectWithTag("PlayerHips").transform;
+            //ObjToFollow = GameObject.FindGameObjectWithTag("PlayerHips").transform;
+            GameObject[] test = GameObject.FindGameObjectsWithTag("PlayerHips");
+            if(test.Length > 0)
+            {
+                ObjToFollow = GameObject.FindGameObjectsWithTag("PlayerHips")[0].transform;
+            }
+
         }
 
         jds = new JointDrive[cjs.Length];
@@ -75,11 +77,6 @@ public class DefaultEnemyController : MonoBehaviour
         hipsRb = GetComponent<Rigidbody>();
         hipsCj = GetComponent<ConfigurableJoint>();
 
-        leftIK = leftFoot.gameObject.GetComponent<InverseKinematics>();
-        rightIK = rightFoot.gameObject.GetComponent<InverseKinematics>();
-        leftAnim = leftFoot.gameObject.GetComponent<ProceduralAnimation>();
-        rightAnim = rightFoot.gameObject.GetComponent<ProceduralAnimation>();
-
         //Saves the initial drives of each configurable joint
         for(int i = 0; i < cjs.Length; i++)
         {
@@ -88,19 +85,9 @@ public class DefaultEnemyController : MonoBehaviour
 
         groundMask = LayerMask.GetMask("Ground");
 
-        if (!alternateLegs)
-        {
-            StartCoroutine(LegUpdate());
-        }
-        else
-        {
-            StartCoroutine(AlternatingLegUpdate());
-        }
-
-        currentTargetPos = FindNextTargetPosOnPath();
-        
+        if(ObjToFollow != null)
+            currentTargetPos = FindNextTargetPosOnPath();
     }
-
     private void FixedUpdate()
     {
         if (isGrounded)
@@ -111,30 +98,20 @@ public class DefaultEnemyController : MonoBehaviour
     }
     void Update()
     {
-        GroundHomeParent();
         CheckGrounded();
+        proceduralLegs.GroundHomeParent();
     }
-
-    void GroundHomeParent()
-    {
-        homesParent.position = new Vector3(hips.position.x, homesParent.position.y, hips.position.z);
-        homesParent.eulerAngles = new Vector3(homesParent.eulerAngles.x, hips.eulerAngles.y, homesParent.eulerAngles.z);
-
-        polesParent.position = new Vector3(hips.position.x, polesParent.position.y, hips.position.z);
-        polesParent.eulerAngles = new Vector3(polesParent.eulerAngles.x, hips.eulerAngles.y, polesParent.eulerAngles.z);
-    }
-
     void StabilizeBody()
     {
         headRb.AddForce(Vector3.up * balanceForce);
         hipsRb.AddForce(Vector3.down * balanceForce);
         hipsRb.AddTorque(-hipsRb.angularVelocity * rotationBalanceForce, ForceMode.Acceleration);
     }
-
     void Move ()
     {
-        if (Vector3.Distance(transform.position, ObjToFollow.position) > 4 && navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
+        if (ObjToFollow != null && Vector3.Distance(transform.position, ObjToFollow.position) > 4 && navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
         {
+
             if (Vector3.Distance(transform.position, currentTargetPos) <= .5f)
             { 
                 currentTargetPos = FindNextTargetPosOnPath();
@@ -163,8 +140,7 @@ public class DefaultEnemyController : MonoBehaviour
         }
         else
         {
-            
-            Vector3 targetVelocity = new Vector3(0, hipsRb.velocity.y, 0);
+            Vector3 targetVelocity = hipsRb.velocity.normalized * 1;
             Vector3 velocity = hipsRb.velocity;
             Vector3 velocityChange = targetVelocity - velocity;
 
@@ -174,16 +150,16 @@ public class DefaultEnemyController : MonoBehaviour
             hipsRb.AddForce(velocityChange, ForceMode.VelocityChange);
             torsoRb.AddForce(velocityChange, ForceMode.VelocityChange);
 
+            //
+
             float rootAngle = transform.eulerAngles.y;
-            float desiredAngle = Quaternion.LookRotation(ObjToFollow.position - transform.position).eulerAngles.y;
+            float desiredAngle = Quaternion.LookRotation(hipsRb.velocity).eulerAngles.y;
 
             float deltaAngle = Mathf.DeltaAngle(rootAngle, desiredAngle);
 
-            hipsRb.AddTorque(Vector3.up * deltaAngle * rotationForce, ForceMode.Acceleration);
+            hipsRb.AddTorque(Vector3.up * deltaAngle * idleRotationForce, ForceMode.Acceleration);
         }
-
     }
-
     Vector3 FindNextTargetPosOnPath()
     {
         navMeshAgent.enabled = true;
@@ -213,33 +189,27 @@ public class DefaultEnemyController : MonoBehaviour
         if (Physics.Raycast(leftFoot.position, Vector3.down, out hit, feetGroundCheckDist, groundMask))
         {
             leftCheck = true;
-            Debug.DrawLine(leftFoot.position, leftFoot.position + Vector3.down * feetGroundCheckDist, Color.yellow);
         }
         if (Physics.Raycast(rightFoot.position, Vector3.down, out hit, feetGroundCheckDist, groundMask))
         {
             rightCheck = true;
-            Debug.DrawLine(rightFoot.position, rightFoot.position + Vector3.down * feetGroundCheckDist, Color.yellow);
         }
             
 
-        if ((rightCheck || leftCheck) && !isGrounded)
+        if ((rightCheck || leftCheck) && !isGrounded && !standing && respawnWhenDead)
         {
             StartCoroutine(DelayBeforeStand(3));
             Debug.Log("STANDING!");
         }
         else if((!rightCheck && !leftCheck) && isGrounded)
         {
-            Die(false);
+            Die(respawnWhenDead);
             Debug.Log("DIED");
         }
-            
-        
-
     }
-
-    public void Die(bool noRespawn)
+    public void Die(bool respawn)
     {
-        if (!noRespawn)
+        if (respawn)
         {
             foreach (ConfigurableJoint cj in cjs)
             {
@@ -250,8 +220,7 @@ public class DefaultEnemyController : MonoBehaviour
             hipsCj.angularYZDrive = hipsInAirDrive;
             hipsCj.angularXDrive = hipsInAirDrive;
 
-            rightIK.enabled = false;
-            leftIK.enabled = false;
+            proceduralLegs.DisableIk();
             isGrounded = false;
             isDead = true;
         }
@@ -266,17 +235,13 @@ public class DefaultEnemyController : MonoBehaviour
             hipsCj.angularYZDrive = hipsInAirDrive;
             hipsCj.angularXDrive = hipsInAirDrive;
 
-            rightIK.enabled = false;
-            leftIK.enabled = false;
+            proceduralLegs.DisableIk();
             isGrounded = false;
             isDead = true;
 
-            autoAim.enabled = false;
+            //autoAim.enabled = false;
 
-            Destroy(this);
         }
-        
-        
     }
     void SetDrives()
     {
@@ -284,56 +249,21 @@ public class DefaultEnemyController : MonoBehaviour
         {
             cjs[i].angularXDrive = jds[i];
             cjs[i].angularYZDrive = jds[i];
-
         }
 
-
-
-        rightIK.enabled = true;
-        leftIK.enabled = true;
+        proceduralLegs.EnableIk();
         isGrounded = true;
         isDead = false;
     }
-
-    IEnumerator AlternatingLegUpdate()
-    {
-        while (true)
-        {
-            do
-            {
-                leftAnim.TryMove();
-                yield return null;
-            } while (leftAnim.moving);
-
-            do
-            {
-                rightAnim.TryMove();
-                yield return null;
-
-            } while (rightAnim.moving);
-        }
-    }
-
-    IEnumerator LegUpdate()
-    {
-        while (true)
-        {
-            do
-            {
-                leftAnim.TryMove();
-                rightAnim.TryMove();
-                yield return null;
-            } while (leftAnim.moving && rightAnim.moving);
-        }
-    }
-
-
     IEnumerator DelayBeforeStand(float delay)
     {
+        standing = true;
         yield return new WaitForSeconds(delay);
+        hipsRb.AddForce(Vector3.up * 250);
         SetDrives();
-    }
+        standing = false;
 
+    }
 
 }
 

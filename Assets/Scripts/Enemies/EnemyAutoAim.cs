@@ -16,6 +16,7 @@ public class EnemyAutoAim : MonoBehaviour
     public LayerMask groundMask;
 
     public float rotationForce;
+    [SerializeField] float rotationBalanceForce;
     public float drag;
 
     Rigidbody rb;
@@ -27,7 +28,7 @@ public class EnemyAutoAim : MonoBehaviour
     {
         if(aimAt is null)
         {
-            aimAt = GameObject.FindGameObjectWithTag("PlayerTorso").transform;
+            aimAt = GameObject.FindGameObjectWithTag("PlayerHips").transform;
         }
 
         weapons = Resources.LoadAll<GameObject>("Prefabs/Weapons");
@@ -48,35 +49,28 @@ public class EnemyAutoAim : MonoBehaviour
         currentGunHeld.position = hand.position;
         currentGunHeld.localRotation = Quaternion.LookRotation(Vector3.right, -Vector3.right);
     }
-
-    // Update is called once per frame
+        
     void FixedUpdate()
     {
         RaycastHit hit;
         if(Physics.Raycast(hips.position, aimAt.position - hips.position, out hit, Mathf.Infinity, groundMask) && canAim)
         {
             if(hit.transform == aimAt)
-            { 
+            {
+                Debug.Log(hit.transform);
 
-                rb.angularDrag = drag;
+                rb.AddTorque(-rb.angularVelocity * rotationBalanceForce, ForceMode.Acceleration);
+
                 Vector3 targetDelta = aimAt.position - transform.position;
-
-                float angleDiff = Vector3.Angle(transform.forward, targetDelta);
 
                 Vector3 cross = Vector3.Cross(transform.forward, targetDelta);
 
                 rb.AddTorque(cross * rotationForce, ForceMode.Acceleration);
 
-
                 currentGunSystem.canShoot = true;
-
-                //Debug.DrawLine(transform.position, aimAt.position, Color.red);
             }
             else
-            {
-                if (rb.angularDrag != 0.05)
-                    rb.angularDrag = 0.05f;
-
+            { 
                 currentGunSystem.canShoot = false;
             }
         }

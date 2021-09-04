@@ -247,13 +247,13 @@ MonoBehaviour:
   autoAim: {fileID: 0}
   enemyAutoAim: {fileID: 0}
   recoil: 10
-  hitForce: 20
+  hitForce: 12
   bloom: 0
-  ammoCount: 16
-  fireRate: 1
+  ammoCount: 8
+  fireRate: 5
   projectileSpeed: 15
-  playerProjectileSpeedMultiplier: 2
-  reloadSpeed: 1
+  playerProjectileSpeedMultiplier: 3
+  reloadSpeed: 2
   playerProjectile: {fileID: 8166942445802032782, guid: f9dc35611848afd4eb0a8a3fa85ecad3, type: 3}
   enemyProjectile: {fileID: 8166942445802032782, guid: f9143a1832c93cc4d88ad7ac1ac1f2f0, type: 3}
   spawnPoint: {fileID: 1747226653467474806}
@@ -269,7 +269,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747226653435358570}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1

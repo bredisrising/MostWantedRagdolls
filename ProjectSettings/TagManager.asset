@@ -9,6 +9,7 @@ TagManager:
   - Billy
   - PlayerTorso
   - PlayerHips
+  - EnemyCollider
   layers:
   - Default
   - TransparentFX

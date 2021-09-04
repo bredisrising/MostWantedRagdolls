@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] float slowDownFactor = 0.05f;
     [SerializeField] float slowDownLength = 3f;
+    [SerializeField] bool goBackToNormalTime = true;
+    [SerializeField] bool slowdownAtStart = false;
     // Start is called before the first frame update
 
     private void Awake()
@@ -27,11 +29,16 @@ public class GameManager : MonoBehaviour
         {
             cinemachineTargetGroup.AddMember(enemy, 1, 1);
         }
+
+        if (slowdownAtStart)
+        {
+            DoSlowmotion();
+        }
     }
 
     void Update()
     {
-        if(Time.timeScale != 1 && Time.fixedDeltaTime != .02f)
+        if(Time.timeScale != 1 && Time.fixedDeltaTime != .02f && goBackToNormalTime)
         {
             Time.timeScale += (1f / slowDownLength) * Time.unscaledDeltaTime;
             Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
@@ -46,8 +53,8 @@ public class GameManager : MonoBehaviour
 
     public void DoSlowmotion()
     {
-        Time.timeScale = slowDownFactor;
-        Time.fixedDeltaTime = Time.timeScale * .02f;
+        Time.timeScale *= slowDownFactor;
+        //Time.fixedDeltaTime *= slowDownFactor;
     }
 
 }

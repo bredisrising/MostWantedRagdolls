@@ -284,7 +284,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.05
+      scalar: 0.04
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -337,7 +337,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.15
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -390,7 +390,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.05
+      scalar: 0.04
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4925,7 +4925,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0, g: 0.5032191, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.009412543, b: 0, a: 1}
   m_Intensity: 0.5
   m_Range: 3
   m_SpotAngle: 30
@@ -5058,7 +5058,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.5294132
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -5068,11 +5068,11 @@ TrailRenderer:
       - serializedVersion: 3
         time: 1
         value: 0
-        inSlope: -1.5518193
-        outSlope: -1.5518193
+        inSlope: -0.48333824
+        outSlope: -0.48333824
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.20863307
         outWeight: 0.66798353
       m_PreInfinity: 2
       m_PostInfinity: 2

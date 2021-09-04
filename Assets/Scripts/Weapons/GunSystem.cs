@@ -82,6 +82,7 @@ public class GunSystem : MonoBehaviour
         if (isEquipped)
         {
             ammoText.text = currentAmmo.ToString();
+            reloadProgress.fillAmount = currentAmmo / ammoCount;
         }
 
     }

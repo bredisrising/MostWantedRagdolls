@@ -4,37 +4,33 @@ using UnityEngine;
 
 
 public class ProceduralAnimation : MonoBehaviour
-{
-
-    public Transform hips;
-
-    public Transform home;
-    public Transform footTarget;
+{ 
+    [SerializeField] Transform hips;
+    [SerializeField] Transform home;
+    [SerializeField] Transform footTarget;
 
     public bool moving;
 
+    [SerializeField] float maxStepDistance;
 
-    public float maxStepDistance;
+    [SerializeField] float moveDuration;
+    [SerializeField] float highness;
 
-    public float moveDuration;
-    public float highness;
-
-    public float stepOverhootFraction;
+    [SerializeField] float stepOverhootFraction;
 
     LayerMask groundMask;
 
-    public bool doGround;
+    [SerializeField] bool doGround;
 
+    [SerializeField] float groundCheckDist;
 
-    public float groundCheckDist;
-    // Start is called before the first frame update
-    private void Start()
+    void Start()
     {
-
         groundMask = LayerMask.GetMask("Ground");
 
         StartCoroutine(MoveToHome(footTarget, home));
     }
+
     void Update()
     {
         GroundHome();
@@ -49,11 +45,9 @@ public class ProceduralAnimation : MonoBehaviour
             if (Physics.Raycast(new Vector3(home.position.x, hips.position.y, home.position.z), Vector3.down, out hit, groundCheckDist, groundMask))
             {
                 home.position = new Vector3(home.position.x, hit.point.y, home.position.z);
-                //Debug.LogError("Brededededededededede");
             }
         }
     }
-
 
     public void TryMove()
     {
@@ -66,9 +60,6 @@ public class ProceduralAnimation : MonoBehaviour
             StartCoroutine(MoveToHome(footTarget, home));
         }
     }
-
-
-
 
     IEnumerator MoveToHome(Transform footTarget, Transform footHome)
     {
@@ -86,8 +77,6 @@ public class ProceduralAnimation : MonoBehaviour
 
         overshootVector = Vector3.ProjectOnPlane(overshootVector, Vector3.up);
 
-
-
         Vector3 endPoint = footHome.position + overshootVector;
 
         Vector3 centerPoint = (startPoint + endPoint) / 2;
@@ -98,7 +87,6 @@ public class ProceduralAnimation : MonoBehaviour
 
         do
         {
-
             timeElapsed += Time.deltaTime;
 
             float normalizedTime = timeElapsed / moveDuration;
@@ -107,7 +95,6 @@ public class ProceduralAnimation : MonoBehaviour
             footTarget.rotation = Quaternion.Slerp(startRot, endRot, normalizedTime);
 
             yield return null;
-
         }
         while (timeElapsed < moveDuration);
 
