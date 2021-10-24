@@ -40,7 +40,7 @@ public class BulletSystem : MonoBehaviour
     {
         //U SHOULD PROBABLY OPTIMIZE THIS!!!!!!
 
-        Debug.Log(other.transform.name);
+        //Debug.Log(other.transform.name);
 
         if(other.transform.root != whoSpawnedMe && other.transform.tag != "Projectile")
         {

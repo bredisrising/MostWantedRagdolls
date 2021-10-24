@@ -46,6 +46,9 @@ public class DefaultEnemyController : MonoBehaviour
     NavMeshAgent navMeshAgent;
 
     Vector3 currentTargetPos;
+
+
+    
     
     private void Start()
     {
@@ -57,7 +60,7 @@ public class DefaultEnemyController : MonoBehaviour
             {
                 ObjToFollow = GameObject.FindGameObjectsWithTag("PlayerHips")[0].transform;
             }
-
+            
         }
 
         jds = new JointDrive[cjs.Length];
@@ -149,8 +152,6 @@ public class DefaultEnemyController : MonoBehaviour
             velocityChange.y = 0;
             hipsRb.AddForce(velocityChange, ForceMode.VelocityChange);
             torsoRb.AddForce(velocityChange, ForceMode.VelocityChange);
-
-            //
 
             float rootAngle = transform.eulerAngles.y;
             float desiredAngle = Quaternion.LookRotation(hipsRb.velocity).eulerAngles.y;

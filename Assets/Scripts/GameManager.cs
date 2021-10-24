@@ -49,12 +49,12 @@ public class GameManager : MonoBehaviour
         //Time.timeScale += (1f / slowDownLength) * Time.unscaledDeltaTime;
         //Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
 
-    }
+    }//oof
 
     public void DoSlowmotion()
     {
         Time.timeScale *= slowDownFactor;
-        //Time.fixedDeltaTime *= slowDownFactor;
+        Time.fixedDeltaTime *= slowDownFactor;
     }
 
 }
