@@ -69,3 +69,22 @@ Update Mode: updateDependencies
 The following packages were updated:
   com.unity.ide.rider from version 3.0.6 to 3.0.7
   com.unity.postprocessing from version 3.1.0 to 3.1.1
+
+=== Tue Feb 21 13:01:57 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were added:
+  com.unity.ai.navigation@1.1.1
+The following packages were updated:
+  com.unity.animation.rigging from version 1.0.3 to 1.2.1
+  com.unity.cinemachine from version 2.7.3 to 2.9.5
+  com.unity.collab-proxy from version 1.5.7 to 2.0.0
+  com.unity.ide.rider from version 3.0.7 to 3.0.18
+  com.unity.ide.visualstudio from version 2.0.8 to 2.0.17
+  com.unity.ide.vscode from version 1.2.3 to 1.2.5
+  com.unity.probuilder from version 5.0.3 to 5.0.4
+  com.unity.render-pipelines.universal from version 11.0.0 to 14.0.6
+  com.unity.test-framework from version 1.1.24 to 1.1.33
+  com.unity.timeline from version 1.5.5 to 1.7.2

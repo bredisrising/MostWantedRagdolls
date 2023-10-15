@@ -101,10 +101,11 @@ public class AutoAim : MonoBehaviour
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 
-                if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
-                {
-                    visibleTargets.Add(target);
-                }
+                //if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
+                //{
+                //    visibleTargets.Add(target);
+                //}
+                visibleTargets.Add(target);
             }
         }
     }
